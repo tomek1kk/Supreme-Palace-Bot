@@ -1,7 +1,7 @@
 const MAIN_URL = "https://www.supremenewyork.com/shop/all";
 const CHECKOUT_URL = "https://www.supremenewyork.com/checkout";
 const TIME_SERVER_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=SxiYpwxzxdmqzwTHoxfoXGZwOvhLfnIYPmnMBGWiqdQlvE4aKHXZ_n7chjoFITw7uIlzs1hsnBMBOg34RHnSH3SqoEKW_wJ-m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnJ9GRkcRevgjTvo8Dc32iw_BLJPcPfRdVKhJT5HNzQuXEeN3QFwl2n0M6ZmO-h7C6eIqWsDnSrEd&lib=MwxUjRcLr2qLlnVOLh12wSNkqcO1Ikdrk";
-var url = window.location.href;
+let url = window.location.href;
 
 if (url.includes("chrome-extension"))
 {
@@ -73,11 +73,11 @@ if (url.includes("chrome-extension"))
 
         if (result.items != null)
         {
-            for (var i = 0; i < result.items[0].length - 1; i++)
+            for (let i = 0; i < result.items[0].length - 1; i++)
                 document.getElementsByClassName("addField")[0].click();
             
 
-            for (var i = 0; i < document.getElementsByClassName("itemName").length; i++)
+            for (let i = 0; i < document.getElementsByClassName("itemName").length; i++)
             {
                 document.getElementsByClassName("itemName")[i].value = result.items[0][i];
                 document.getElementsByClassName("category")[i].value = result.items[1][i];
@@ -111,15 +111,15 @@ else if (url.includes("supremenewyork.com"))
                         {
                             fetch(TIME_SERVER_URL).then(timer => timer.json())
                             .then(timer => { 
-                                    var totalTime = ((result.hour - timer.hours - 2) * 3600000) + ((result.minute - timer.minutes) * 60000) + ((result.second - timer.seconds) * 1000);
+                                    let totalTime = ((result.hour - timer.hours - 2) * 3600000) + ((result.minute - timer.minutes) * 60000) + ((result.second - timer.seconds) * 1000);
                                     console.log("Program will start in " + totalTime/1000 + " seconds");
                                     setTimeout(function() { pickCategory(result.items[1][0]); }, totalTime);
                             });
                         }
                         else // LOCAL TIME
                         {
-                            var today = new Date();
-                            var totalTime = ((result.hour - today.getHours()) * 3600000) + ((result.minute - today.getMinutes()) * 60000) + ((result.second - today.getSeconds()) * 1000);
+                            let today = new Date();
+                            let totalTime = ((result.hour - today.getHours()) * 3600000) + ((result.minute - today.getMinutes()) * 60000) + ((result.second - today.getSeconds()) * 1000);
                             console.log("Program will start in " + totalTime/1000 + " seconds");
                             setTimeout(function() { pickCategory(result.items[1][0]); }, totalTime);
                         }
@@ -135,7 +135,7 @@ else if (url.includes("supremenewyork.com"))
         else if (url.length > MAIN_URL.length + 15) // item selected
         {
             chrome.storage.sync.get(['items'], function(result) {
-            var x = parseInt(sessionStorage.getItem('itemsAdded')) + 1;
+            let x = parseInt(sessionStorage.getItem('itemsAdded')) + 1;
             sessionStorage.setItem('itemsAdded', x.toString());
 
             if (document.getElementById("add-remove-buttons").children[0].value != "add to basket")
@@ -151,7 +151,7 @@ else if (url.includes("supremenewyork.com"))
                 pickSize(result.items[2][x - 1]);
                 document.getElementsByName("commit")[0].click();
 
-                var p = setInterval(
+                let p = setInterval(
                     function() 
                     { 
                         if (document.getElementById("cart").className != "hidden" &&
@@ -172,15 +172,16 @@ else if (url.includes("supremenewyork.com"))
         {
             chrome.storage.sync.get(['cardNumber', 'cvvNumber', 'month', 'year', 'checkoutDelay', 'cardType', 'fillAddress',
                                     'fullName', 'email', 'tel', 'address', 'address2', 'city', 'postcode'], function(result) {
-
+            
+            let BILLING_INFO = {};
             if (result.fillAddress == true)
             {
-                var BILLING_INFO = {"full name": result.fullName, "email": result.email, "tel": result.tel,
+                BILLING_INFO = {"full name": result.fullName, "email": result.email, "tel": result.tel,
                                     "address": result.address, "address 2": result.address2, "postcode": result.postcode, "city": result.city,
                                     "number": result.cardNumber, "cvv": result.cvvNumber};
             }
             else
-                var BILLING_INFO = {"number": result.cardNumber, "cvv": result.cvvNumber};
+                BILLING_INFO = {"number": result.cardNumber, "cvv": result.cvvNumber};
             //console.log(BILLING_INFO);
             autoFill(BILLING_INFO, result.month, result.year, result.cardType, result.cvvNumber);
             setTimeout(function() { if (document.getElementsByName("commit")[0])
@@ -200,15 +201,15 @@ else if (url.includes("supremenewyork.com"))
 
 function pickItem(items, name, color, anycolor, refreshInterval)
 {
-    var found = false;
-    var products = document.getElementsByClassName('name-link');
+    let found = false;
+    let products = document.getElementsByClassName('name-link');
     if (anycolor == false)
     {
-        for (var i = 0; i < products.length - 1; i++)
+        for (let i = 0; i < products.length - 1; i++)
         {
-            for (var j = 0; j < name.length; j++)
+            for (let j = 0; j < name.length; j++)
             {
-                for (var k = 0; k < color.length; k++)
+                for (let k = 0; k < color.length; k++)
                 {
                     if ((products[i].innerHTML.toLowerCase()).includes(name[j]) && (products[i+1].innerHTML.toLowerCase()).includes(color[k]))
                     {
@@ -222,9 +223,9 @@ function pickItem(items, name, color, anycolor, refreshInterval)
     }
     else
     {
-        for (var i = 0; i < products.length - 1; i++)
+        for (let i = 0; i < products.length - 1; i++)
         {
-            for (var j = 0; j < name.length; j++)
+            for (let j = 0; j < name.length; j++)
             {
                 if ((products[i].innerHTML.toLowerCase()).includes(name[j]))
                 {
@@ -237,9 +238,9 @@ function pickItem(items, name, color, anycolor, refreshInterval)
     }
     if (found == false && sessionStorage.getItem('itemsAdded') != '0')
     {
-        var x = parseInt(sessionStorage.getItem('itemsAdded')) + 1;
+        let x = parseInt(sessionStorage.getItem('itemsAdded')) + 1;
         sessionStorage.setItem('itemsAdded', x.toString());
-        var y = parseInt(sessionStorage.getItem('itemsUnadded')) + 1;
+        let y = parseInt(sessionStorage.getItem('itemsUnadded')) + 1;
         sessionStorage.setItem('itemsUnadded', y.toString());
         if (x == items[0].length)
             checkout();
@@ -252,16 +253,16 @@ function pickItem(items, name, color, anycolor, refreshInterval)
 
 function autoFill(info, month, year, cardType, cvv)
 {
-    var inputs = document.querySelectorAll('input:not([type=submit]):not([type=hidden])');
+    let inputs = document.querySelectorAll('input:not([type=submit]):not([type=hidden])');
     inputs.forEach(function(element) 
     {
 		console.log(element);
         console.log("autofiluje!");
-        var prev_sibling = element.previousElementSibling;
+        let prev_sibling = element.previousElementSibling;
         if (prev_sibling != null) 
         {
-            var label_text = prev_sibling.innerHTML.toLowerCase();
-            var value = info[label_text];
+            let label_text = prev_sibling.innerHTML.toLowerCase();
+            let value = info[label_text];
 			console.log("label_text: " + label_text);
 			console.log("info[label_text]: " + info[label_text]);
 			
@@ -299,8 +300,8 @@ function checkout()
 
 function pickSize(size)
 {
-    var selectbox = document.getElementById("size");
-    for (var i = 0; i < selectbox.length; i++)
+    let selectbox = document.getElementById("size");
+    for (let i = 0; i < selectbox.length; i++)
     {
         if (selectbox.options[i].label.toLowerCase() == size)
         {

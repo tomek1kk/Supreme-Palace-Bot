@@ -2,8 +2,8 @@
   "manifest_version": 2,
 
   "name": "SUPREME BOT",
-  "description": "Tomasz Kostowski",
-  "version": "1.0",
+  "description": "Tomasz Kostowski, Piotr Koskiewicz",
+  "version": "1.1",
 
   "background": {
     "scripts": ["background.js"]
