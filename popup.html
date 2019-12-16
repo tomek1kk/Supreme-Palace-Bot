@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+</head>
+<body>
+
+<div class="forms">
+    <center><b>SUPREME BOT</b></center>
+    <br/>
+    <form>
+        <label >Checkout delay(ms):</label>
+        <input type="text" class="checkoutDelay">
+        <label>Refresh interval(ms):</label>
+        <input type="text" class="refreshInterval">
+        <label>Start only with empty basket:</label>
+        <input type="checkbox" class="emptyBasket">
+        <label>Timer:</label>
+        <input type="checkbox" class="timer">
+        <label class="timeLabel">Time from server:</label>
+        <input type="hidden" class="serverTime" id="serverTime">
+        <label class="timeLabel">hour:</label>
+        <input type="hidden" class="time" id="hour">
+        <label class="timeLabel">minute:</label>
+        <input type="hidden" class="time" id="minute">
+        <label class="timeLabel">second:</label>
+        <input type="hidden" class="time" id="second">
+    </form>
+
+    <br/>
+    <form name="creditCard" id="creditCard">
+        <label>Card numb:</label>
+        <input type="text" class="creditNumber" maxlength="16">
+        <label>CVV:</label>
+        <input type="text" class="cvvNumber" maxlength="3">
+        <label>Month:</label>
+        <input type="text" class="month" maxlength="2">
+        <label>Year:</label>
+        <input type="text" class="year" maxlength="4">
+        <select class="cardType">
+            <option>Visa</option>
+            <option>Mastercard</option>
+        </select>
+    </form>
+    <br/>
+    <form name="myForm" id="myForm" >
+        <label class="itemNameLabel">Item names: </label>
+        <input type="text" class="itemName" />
+        <select class="category">
+            <option>jackets</option>
+            <option>shirts</option>
+            <option>tops_sweaters</option>
+            <option>sweatshirts</option>
+            <option>pants</option>
+            <option>shorts</option>
+            <option>t-shirts</option>
+            <option>hats</option>
+            <option>bags</option>
+            <option>accessories</option>
+            <option>skate</option>
+            <option>shoes</option>
+        </select>
+        <label class="sizeLabel">Size:</label>
+        <input type="text" class="size"/>
+        <label class="colorLabel">Colors:</label>
+        <input type="text" class="color"/>
+        <label class="anyColorLabel">Any color:</label>
+        <input type="checkbox" class="anyColor"/>
+        <div class="clear"></div>
+        <br/>
+    </form>
+    <form name="addressForm" id="addressForm">
+        <label>Fill address:</label>
+        <input type="checkbox" id="fillAddress">
+        <label type="hidden" class="addressLabel">Full name:</label>
+        <input type="hidden" id="fullName" class="address">
+        <label type="hidden" class="addressLabel">email:</label>
+        <input type="hidden" id="email" class="address">
+        <label type="hidden" class="addressLabel">tel:</label>
+        <input type="hidden" id="tel" class="address">
+        <label type="hidden" class="addressLabel">address:</label>
+        <input type="hidden" id="address" class="address">
+        <label type="hidden" class="addressLabel">address2:</label>
+        <input type="hidden" id="address2" class="address">
+        <label type="hidden" class="addressLabel">city:</label>
+        <input type="hidden" id="city" class="address">
+        <label type="hidden" class="addressLabel">postcode:</label>
+        <input type="hidden" id="postcode" class="address">
+        <div class="clear"></div>
+        <br/>
+    </form>
+    <label>Always click save button after any changes!</label>
+    <button class="start">Start</button>
+    <button class="save">Save</button>
+    <button class="addField">New item</button>
+    <button class="removeLast">Remove</button>
+</div>
+    
+
+    <script type="text/javascript" src="local.js"></script>
+    <script type="text/javascript" src="supremeBot.js"></script>
+    <style>
+    .forms { width: 260px;}
+    .itemName { width: 178px;}
+    .size { width: 100px;}
+    .color { width: 125px;}
+    .clear { clear:both;}
+    .creditNumber { width: 120px;}
+    .cvvNumber { width: 25px;}
+    .month { width: 30px;}
+    .year {width: 40px;}
+    .checkoutDelay { width: 120px;}
+    .refreshInterval {width: 120px;}
+    .timeLabel { display: none;}
+    .time { width: 240px;}
+    .deleteButton { width: 245px; margin: 5px;}
+    .save { background-color: red; color: white;}
+    .addressLabel {display: none;}
+    .address {width: 240px;}
+    </style>
+</body>
+</html>
+
