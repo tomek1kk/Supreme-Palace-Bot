@@ -1,19 +1,19 @@
-var saveButton= document.querySelector(".save"); 
-var newItemButton = document.querySelector(".addField");
-var timer = document.querySelector(".timer");
-var fillAddress = document.getElementById("fillAddress");
-var removeLast = document.querySelector(".removeLast");
-var start = document.querySelector(".start");
+let saveButton= document.querySelector(".save"); 
+let newItemButton = document.querySelector(".addField");
+let timer = document.querySelector(".timer");
+let fillAddress = document.getElementById("fillAddress");
+let removeLast = document.querySelector(".removeLast");
+let start = document.querySelector(".start");
 
 saveButton.addEventListener("click", function () {
 
-    var itemNames = document.querySelectorAll('input[class="itemName"]');
-    var categories = document.querySelectorAll('select[class="category"]');
-    var sizes = document.querySelectorAll('input[class="size"]');
-    var colors = document.querySelectorAll('input[class="color"]');
-    var anyColors = document.querySelectorAll('input[class="anyColor"]');
+    let itemNames = document.querySelectorAll('input[class="itemName"]');
+    let categories = document.querySelectorAll('select[class="category"]');
+    let sizes = document.querySelectorAll('input[class="size"]');
+    let colors = document.querySelectorAll('input[class="color"]');
+    let anyColors = document.querySelectorAll('input[class="anyColor"]');
 
-    var timer = document.querySelector('input[class="timer"]');
+    let timer = document.querySelector('input[class="timer"]');
     chrome.storage.sync.set({timer: timer.checked});
     if (timer.checked == true)
     {
@@ -23,13 +23,13 @@ saveButton.addEventListener("click", function () {
       chrome.storage.sync.set({second: document.getElementById("second").value});
     }
 
-    var items = [[], [], [], [], []];
+    let items = [[], [], [], [], []];
 
-    for (var i = 0; i < itemNames.length; i++)
+    for (let i = 0; i < itemNames.length; i++)
     {
       items[0][i] = itemNames[i].value.toLowerCase().trim();
       items[1][i] = categories[i].children[categories[i].selectedIndex].textContent;
-      var s = sizes[i].value;
+      let s = sizes[i].value;
       s = s.toLowerCase().trim();
       if (s == "s") s = "small";
       else if (s == "m") s = "medium";
@@ -41,7 +41,7 @@ saveButton.addEventListener("click", function () {
       items[4][i] = anyColors[i].checked;
     }
 
-    for (var i = 0; i < items[0].length; i++)
+    for (let i = 0; i < items[0].length; i++)
     {
         items[0][i] = items[0][i].split(",");
         items[3][i] = items[3][i].split(",");
@@ -74,53 +74,53 @@ saveButton.addEventListener("click", function () {
 
 newItemButton.addEventListener("click", function()
 {
-  var form = document.getElementById("myForm");
+  let form = document.getElementById("myForm");
 
-  var itemNameLabel = document.createElement("label");
+  let itemNameLabel = document.createElement("label");
   itemNameLabel.textContent = "Item names: "; itemNameLabel.className = "itemNameLabel";
 
-  var itemName = document.createElement("input");
+  let itemName = document.createElement("input");
   itemName.type = "text"; itemName.className = "itemName";
 
-  var category = document.createElement("select");
+  let category = document.createElement("select");
   category.className = "category";
-  var opt1 = document.createElement("option"); opt1.textContent = "jackets";
-  var opt2 = document.createElement("option"); opt2.textContent = "shirts"; 
-  var opt3 = document.createElement("option"); opt3.textContent = "tops_sweaters";
-  var opt4 = document.createElement("option"); opt4.textContent = "sweatshirts";
-  var opt5 = document.createElement("option"); opt5.textContent = "pants";
-  var opt6 = document.createElement("option"); opt6.textContent = "shorts"; 
-  var opt7 = document.createElement("option"); opt7.textContent = "t-shirts";
-  var opt8 = document.createElement("option"); opt8.textContent = "hats";
-  var opt9 = document.createElement("option"); opt9.textContent = "bags";
-  var opt10 = document.createElement("option"); opt10.textContent = "accessories"; 
-  var opt11 = document.createElement("option"); opt11.textContent = "skate";
-  var opt12 = document.createElement("option"); opt12.textContent = "shoes";
+  let opt1 = document.createElement("option"); opt1.textContent = "jackets";
+  let opt2 = document.createElement("option"); opt2.textContent = "shirts"; 
+  let opt3 = document.createElement("option"); opt3.textContent = "tops_sweaters";
+  let opt4 = document.createElement("option"); opt4.textContent = "sweatshirts";
+  let opt5 = document.createElement("option"); opt5.textContent = "pants";
+  let opt6 = document.createElement("option"); opt6.textContent = "shorts"; 
+  let opt7 = document.createElement("option"); opt7.textContent = "t-shirts";
+  let opt8 = document.createElement("option"); opt8.textContent = "hats";
+  let opt9 = document.createElement("option"); opt9.textContent = "bags";
+  let opt10 = document.createElement("option"); opt10.textContent = "accessories"; 
+  let opt11 = document.createElement("option"); opt11.textContent = "skate";
+  let opt12 = document.createElement("option"); opt12.textContent = "shoes";
   category.appendChild(opt1); category.appendChild(opt2); category.appendChild(opt3); category.appendChild(opt4);
   category.appendChild(opt5); category.appendChild(opt6); category.appendChild(opt7); category.appendChild(opt8);
   category.appendChild(opt9); category.appendChild(opt10); category.appendChild(opt11); category.appendChild(opt12);
 
-  var sizeLabel = document.createElement("label");
+  let sizeLabel = document.createElement("label");
   sizeLabel.textContent = " Size: "; sizeLabel.className = "sizeLabel";
 
-  var size = document.createElement("input");
+  let size = document.createElement("input");
   size.type = "text"; size.className = "size";
 
-  var colorLabel = document.createElement("label");
+  let colorLabel = document.createElement("label");
   colorLabel.textContent = "Colors: "; colorLabel.className = "colorLabel";
 
-  var color = document.createElement("input");
+  let color = document.createElement("input");
   color.type = "text"; color.className = "color";
 
-  var anyColorLabel = document.createElement("label");
+  let anyColorLabel = document.createElement("label");
   anyColorLabel.textContent = "Any color: "; anyColorLabel.className = "anyColorLabel";
 
-  var anyColor = document.createElement("input");
+  let anyColor = document.createElement("input");
   anyColor.type = "checkbox"; anyColor.className = "anyColor";
 
-  var clear = document.createElement("div");
+  let clear = document.createElement("div");
   clear.className = "clear";
-  var br = document.createElement("br");
+  let br = document.createElement("br");
   br.className = "break";
 
   form.appendChild(itemNameLabel);
@@ -139,9 +139,9 @@ newItemButton.addEventListener("click", function()
 
 timer.addEventListener("click", function()
 {
-  var time = document.querySelectorAll(".time");
-  var timeLabel = document.querySelectorAll(".timeLabel");
-  var serverTime = document.querySelector(".serverTime");
+  let time = document.querySelectorAll(".time");
+  let timeLabel = document.querySelectorAll(".timeLabel");
+  let serverTime = document.querySelector(".serverTime");
   if (this.checked == true)
   {
     serverTime.type = "checkbox";
@@ -171,8 +171,8 @@ timer.addEventListener("click", function()
 
 fillAddress.addEventListener("click", function()
 {
-    var addressLabel = document.querySelectorAll(".addressLabel");
-    var address = document.querySelectorAll(".address");
+    let addressLabel = document.querySelectorAll(".addressLabel");
+    let address = document.querySelectorAll(".address");
     if (this.checked == true)
     {
         addressLabel.forEach(function(element)
@@ -199,31 +199,31 @@ fillAddress.addEventListener("click", function()
 
 removeLast.addEventListener("click", function()
 {
-    var n = document.getElementsByClassName("itemName").length;
+    let n = document.getElementsByClassName("itemName").length;
     if (n > 1)
     {
       console.log("usuwam przycisk!");
-      var itemNameLabel = document.getElementsByClassName("itemNameLabel")[n - 1];
+      let itemNameLabel = document.getElementsByClassName("itemNameLabel")[n - 1];
       itemNameLabel.parentNode.removeChild(itemNameLabel);
-      var itemName = document.getElementsByClassName("itemName")[n - 1];
+      let itemName = document.getElementsByClassName("itemName")[n - 1];
       itemName.parentNode.removeChild(itemName);
-      var category = document.getElementsByClassName("category")[n - 1];
+      let category = document.getElementsByClassName("category")[n - 1];
       category.parentNode.removeChild(category);
-      var sizeLabel = document.getElementsByClassName("sizeLabel")[n - 1];
+      let sizeLabel = document.getElementsByClassName("sizeLabel")[n - 1];
       sizeLabel.parentNode.removeChild(sizeLabel);
-      var size = document.getElementsByClassName("size")[n - 1];
+      let size = document.getElementsByClassName("size")[n - 1];
       size.parentNode.removeChild(size);
-      var colorLabel = document.getElementsByClassName("colorLabel")[n - 1];
+      let colorLabel = document.getElementsByClassName("colorLabel")[n - 1];
       colorLabel.parentNode.removeChild(colorLabel);
-      var color = document.getElementsByClassName("color")[n - 1];
+      let color = document.getElementsByClassName("color")[n - 1];
       color.parentNode.removeChild(color);
-      var anyColorLabel = document.getElementsByClassName("anyColorLabel")[n - 1];
+      let anyColorLabel = document.getElementsByClassName("anyColorLabel")[n - 1];
       anyColorLabel.parentNode.removeChild(anyColorLabel);
-      var anyColor = document.getElementsByClassName("anyColor")[n - 1];
+      let anyColor = document.getElementsByClassName("anyColor")[n - 1];
       anyColor.parentNode.removeChild(anyColor);
-      var clear = document.getElementsByClassName("clear")[n - 1];
+      let clear = document.getElementsByClassName("clear")[n - 1];
       clear.parentNode.removeChild(clear);
-      var br = document.getElementsByClassName("break")[n - 2];
+      let br = document.getElementsByClassName("break")[n - 2];
       br.parentNode.removeChild(br);
     }
 });
