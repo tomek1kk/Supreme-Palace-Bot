@@ -8,7 +8,7 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @Html.ActionLink("Add card", "Create", "Cards", null, new { @class = "btn btn-primary" })
 </p>
 <table class="table">
     <thead>
@@ -55,7 +55,5 @@
                 </td>
             </tr>
         }
-        @Html.ActionLink("Add card", "Create", "Cards", null, new { @class = "btn btn-primary" })
-
     </tbody>
 </table>
