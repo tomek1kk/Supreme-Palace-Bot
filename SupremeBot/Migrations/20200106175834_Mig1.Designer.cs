@@ -10,7 +10,7 @@ using SupremeBot.Data;
 namespace SupremeBot.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200106171129_Mig1")]
+    [Migration("20200106175834_Mig1")]
     partial class Mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

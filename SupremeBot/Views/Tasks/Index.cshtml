@@ -1,0 +1,66 @@
+﻿@model IEnumerable<SupremeBot.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Delay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RefreshInterval)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OnlyWithEmptyBasket)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UseTimer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnyColor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FillAdress)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Delay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefreshInterval)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OnlyWithEmptyBasket)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UseTimer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnyColor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FillAdress)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
