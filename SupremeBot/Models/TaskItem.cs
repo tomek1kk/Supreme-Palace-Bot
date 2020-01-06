@@ -18,5 +18,6 @@ namespace SupremeBot.Models
         public bool FillAdress { get; set; }
         public List<Item> Items { get; set; }
         public Card Card { get; set; }
+        public Address Address { get; set; }
     }
 }
