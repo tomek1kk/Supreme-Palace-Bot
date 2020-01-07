@@ -10,6 +10,7 @@ namespace SupremeBot.Models
     {
         [Key]
         public int Id { get; set; }
+        public string Name { get; set; }
         public string Number { get; set; }
         public string Month { get; set; }
         public string Year { get; set; }

@@ -17,6 +17,13 @@ namespace SupremeBot.Controllers
             _context = context;
         }
 
+        [Route("Addresses/Addresses")]
+        [HttpGet]
+        public List<Address> Addresses()
+        {
+            return _context.Addresses.ToList();
+        }
+
         [Route("Addresses/Index")]
         [HttpGet]
         public IActionResult Index()

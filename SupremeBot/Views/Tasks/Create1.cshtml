@@ -15,17 +15,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Delay" class="control-label"></label>
-                <input type="number" value="0" class="form-control" id="delayInput"/>
+                <input type="number" value="0" class="form-control" id="delayInput" />
                 <span asp-validation-for="Delay" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RefreshInterval" class="control-label"></label>
-                <input type="number" value="0" class="form-control" id="refreshIntervalInput"/>
+                <input type="number" value="0" class="form-control" id="refreshIntervalInput" />
                 <span asp-validation-for="RefreshInterval" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Only with empty basket</label>
-                <input type="checkbox" id="onlyWithEmptyBasketInput"/>
+                <input type="checkbox" id="onlyWithEmptyBasketInput" />
             </div>
             <div class="form-group">
                 <label>Use timer</label>
@@ -38,6 +38,14 @@
             <div class="form-group">
                 <label>Fill address</label>
                 <input type="checkbox" id="fillAddressInput" />
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <select class="form-control" id="addressSelect"></select>
+            </div>
+            <div class="form-group">
+                <label>Cards</label>
+                <select class="form-control" id="cardSelect"></select>
             </div>
             @*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*@
 
@@ -72,8 +80,8 @@
                         <input type="checkbox" id="anyColorCheck"></input>
                     </div>
                     @*<div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-default" id="submitItem" />
-                    </div>*@
+                    <input type="submit" value="Create" class="btn btn-default" id="submitItem" />
+                </div>*@
                     @*</form>*@
                 </div>
             </div>
@@ -113,6 +121,42 @@
     //        });
     //};
 
+    var fillAddressSelect = () => {
+        var addressSelect = document.getElementById("addressSelect");
+
+        $.getJSON("/addresses/addresses")
+            .done(function(data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function(key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        addressSelect.add(option);
+                    });
+
+            });
+    };
+
+    var fillCardSelect = () => {
+        var cardSelect = document.getElementById("cardSelect");
+
+        $.getJSON("/cards/cards")
+            .done(function(data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function(key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        cardSelect.add(option);
+                    });
+
+            });
+    };
+
     var colorButtonClick = (id) => {
         var newColor = document.getElementById('colorInput' + id).value;
         var colorDiv = document.getElementById('colorsDiv');
@@ -134,10 +178,6 @@
         newButton.onclick = () => colorButtonClick(id + 1);
         newButton.textContent = "Add";
 
-        //var newLabel = document.createElement("label");
-        //newLabel.textContent = "New color";
-
-        //colorDiv.append(newLabel);
         colorDiv.append(newInput);
         colorDiv.append(newButton);
 
@@ -165,10 +205,7 @@
 
         newButton.onclick = () => nameButtonClick(id + 1);
         newButton.textContent = "Add";
-        //var newLabel = document.createElement("label");
-        //newLabel.textContent = "New name";
 
-        //colorDiv.append(newLabel);
         colorDiv.append(newInput);
         colorDiv.append(newButton);
 
@@ -187,6 +224,9 @@
             function () {
                 nameButtonClick(1);
             });
+
+        fillAddressSelect();
+        fillCardSelect();
 
 
         $("#taskForm").submit(function(event) {
@@ -212,6 +252,8 @@
                 useTimer: document.getElementById('useTimerInput').checked,
                 onlyWithEmptyBasket: document.getElementById('onlyWithEmptyBasketInput').checked,
                 fillAddress: document.getElementById('fillAddressInput').checked,
+                address: document.getElementById('addressSelect').value,
+                card: document.getElementById('cardSelect').value
             };
 
             console.log(jason);

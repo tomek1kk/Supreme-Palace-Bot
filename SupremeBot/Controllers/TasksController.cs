@@ -59,6 +59,8 @@ namespace SupremeBot.Controllers
             bool fillAddress = data["fillAddress"].ToObject<bool>();
             int delay = data["delay"].ToObject<int>();
             int refreshInterval = data["refreshInterval"].ToObject<int>();
+            int cardId = data["card"].ToObject<int>();
+            int addressId = data["address"].ToObject<int>();
             List<JObject> itemsJson = data["items"].ToObject<List<JObject>>();
 
             var items = new List<Item>();
@@ -93,11 +95,14 @@ namespace SupremeBot.Controllers
                 items.Add(newItem);
             }
 
+            Card card = _context.Cards.FirstOrDefault(x => x.Id == cardId);
+            Address address = _context.Addresses.FirstOrDefault(x => x.Id == addressId);
+
             TaskItem task = new TaskItem()
             {
                 AnyColor = anyColor, Delay = delay, FillAdress = fillAddress,
                 OnlyWithEmptyBasket = onlyWithEmptyBasket, RefreshInterval = refreshInterval,
-                Items = items, UseTimer = useTimer
+                Items = items, UseTimer = useTimer, Card = card, Address = address
             };
 
             _context.TaskItems.Add(task);

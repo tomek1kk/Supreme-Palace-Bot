@@ -17,6 +17,13 @@ namespace SupremeBot.Controllers
             _context = context;
         }
 
+        [Route("Cards/Cards")]
+        [HttpGet]
+        public List<Card> Cards()
+        {
+            return _context.Cards.ToList();
+        }
+
         [Route("Cards/Index")]
         [HttpGet]
         public IActionResult Index()
