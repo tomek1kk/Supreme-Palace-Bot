@@ -61,6 +61,11 @@ namespace SupremeBot.Controllers
             int refreshInterval = data["refreshInterval"].ToObject<int>();
             int cardId = data["card"].ToObject<int>();
             int addressId = data["address"].ToObject<int>();
+            string timeString = data["time"].ToObject<string>();
+            var timeList = timeString.Split(':');
+            int hour = Int32.Parse(timeList[0]);
+            int minute = Int32.Parse(timeList[1]);
+            int second = Int32.Parse(timeList[2]);
             List<JObject> itemsJson = data["items"].ToObject<List<JObject>>();
 
             var items = new List<Item>();
@@ -102,7 +107,8 @@ namespace SupremeBot.Controllers
             {
                 AnyColor = anyColor, Delay = delay, FillAdress = fillAddress,
                 OnlyWithEmptyBasket = onlyWithEmptyBasket, RefreshInterval = refreshInterval,
-                Items = items, UseTimer = useTimer, Card = card, Address = address
+                Items = items, UseTimer = useTimer, Card = card, Address = address,
+                Hour  = hour, Minute = minute, Second = second
             };
 
             _context.TaskItems.Add(task);

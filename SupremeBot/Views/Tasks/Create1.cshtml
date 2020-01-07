@@ -28,16 +28,17 @@
                 <input type="checkbox" id="onlyWithEmptyBasketInput" />
             </div>
             <div class="form-group">
-                <label>Use timer</label>
-                <input type="checkbox" id="useTimerInput" />
-            </div>
-            <div class="form-group">
                 <label>Any color</label>
                 <input type="checkbox" id="anyColorInput" />
             </div>
             <div class="form-group">
                 <label>Fill address</label>
                 <input type="checkbox" id="fillAddressInput" />
+            </div>
+            <div class="form-group">
+                <label>Use timer</label>
+                <input type="checkbox" id="useTimerInput" />
+                <input type="time" id="timeInput" style="display: none;" step="1"/>
             </div>
             <div class="form-group">
                 <label>Address</label>
@@ -213,6 +214,18 @@
         console.log(newButton);
     };
 
+    var timerCheckBoxClick = () => {
+        //var checkbox = document.getElementById('useTiem');
+        var timeInput = document.getElementById('timeInput');
+
+        if (timeInput.style.display == 'none')
+            timeInput.style.display = 'block';
+        else
+            timeInput.style.display = 'none';
+        console.log('timer checkbox clicked');
+
+    }
+
     $(document).ready(function() {
 
         //addColorsToSelect(1);
@@ -227,6 +240,9 @@
 
         fillAddressSelect();
         fillCardSelect();
+        document.getElementById('timeInput').value = '11:59:59';
+
+        document.getElementById('useTimerInput').onclick = timerCheckBoxClick;
 
 
         $("#taskForm").submit(function(event) {
@@ -253,7 +269,8 @@
                 onlyWithEmptyBasket: document.getElementById('onlyWithEmptyBasketInput').checked,
                 fillAddress: document.getElementById('fillAddressInput').checked,
                 address: document.getElementById('addressSelect').value,
-                card: document.getElementById('cardSelect').value
+                card: document.getElementById('cardSelect').value,
+                time: document.getElementById('timeInput').value
             };
 
             console.log(jason);
