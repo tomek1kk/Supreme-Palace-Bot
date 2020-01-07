@@ -1,0 +1,230 @@
+﻿@model SupremeBot.Models.TaskItem
+
+@{
+    ViewData["Title"] = "CreateTaskItem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CreateTaskItem</h2>
+
+<h4>TaskItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateTaskItem1" id="taskForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Delay" class="control-label"></label>
+                <input asp-for="Delay" class="form-control" id="delayInput"/>
+                <span asp-validation-for="Delay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RefreshInterval" class="control-label"></label>
+                <input asp-for="RefreshInterval" class="form-control" id="interval"/>
+                <span asp-validation-for="RefreshInterval" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Only with empty basket</label>
+                <input type="checkbox" id="onlyWithEmptyBasketInput"/>
+            </div>
+            <div class="form-group">
+                <label>Use timer</label>
+                <input type="checkbox" id="useTimerInput" />
+            </div>
+            <div class="form-group">
+                <label>Any color</label>
+                <input type="checkbox" id="anyColorInput" />
+            </div>
+            <div class="form-group">
+                <label>Fill address</label>
+                <input type="checkbox" id="fillAddressInput" />
+            </div>
+            @*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*@
+
+            <div class="row">
+                <div class="col-md-4">
+                    @*<form id="itemForm">*@
+                    <div class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <select class="form-control" asp-items="Html.GetEnumSelectList<Sizes>()" id="sizeSelect"></select>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <select class="form-control" asp-items="Html.GetEnumSelectList<Categories>()" id="categorySelect"></select>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group" id="namesDiv">
+                        <label>Names</label>
+                        @*<select class="form-control" id="colorSelect1"></select>*@
+                        <input type="text" id="nameInput1" />
+                        <p id="nameButton1">Add</p>
+                    </div>
+                    <div class="form-group" id="colorsDiv">
+                        <label>Colors</label>
+                        @*<select class="form-control" id="colorSelect1"></select>*@
+                        <input type="text" id="colorInput1" />
+                        <p id="colorButton1">Add</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Any color</label>
+                        <input type="checkbox" id="anyColorCheck"></input>
+                    </div>
+                    @*<div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-default" id="submitItem" />
+                    </div>*@
+                    @*</form>*@
+                </div>
+            </div>
+
+            @*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    var colors = [];
+    var names = [];
+
+    //var addColorsToSelect = (id) => {
+    //    var colorSelect = document.getElementById("colorSelect" + id);
+
+    //    $.getJSON("/tasks/colors")
+    //        .done(function(data) {
+    //            console.log(data);
+    //            // On success, 'data' contains a list of products.
+    //            $.each(data,
+    //                function(key, item) {
+    //                    var option = document.createElement("option");
+    //                    option.value = data[key].id;
+    //                    option.text = data[key].name;
+    //                    colorSelect.add(option);
+    //                });
+
+    //        });
+    //};
+
+    var colorButtonClick = (id) => {
+        var newColor = document.getElementById('colorInput' + id).value;
+        var colorDiv = document.getElementById('colorsDiv');
+
+        colors[id - 1] = newColor;
+
+        if (id < colors.length) {
+            return;
+        }
+
+        var newInput = document.createElement("input");
+        newInput.setAttribute("id", "colorInput" + (id + 1));
+        newInput.type = "text";
+        //var newButton = document.createElement()("button");
+        var newButton = document.createElement("p");
+        newButton.setAttribute("id", "colorButton" + (id + 1));
+        //newButton.onclick = () => colorButtonClick(id + 1);
+
+        newButton.onclick = () => colorButtonClick(id + 1);
+        newButton.textContent = "Add";
+
+        //var newLabel = document.createElement("label");
+        //newLabel.textContent = "New color";
+
+        //colorDiv.append(newLabel);
+        colorDiv.append(newInput);
+        colorDiv.append(newButton);
+
+        console.log(colors);
+        console.log(newButton);
+    };
+
+    var nameButtonClick = (id) => {
+        var newName = document.getElementById('nameInput' + id).value;
+        var colorDiv = document.getElementById('namesDiv');
+
+        names[id - 1] = newName;
+
+        if (id < colors.length) {
+            return;
+        }
+
+        var newInput = document.createElement("input");
+        newInput.setAttribute("id", "nameInput" + (id + 1));
+        newInput.type = "text";
+        //var newButton = document.createElement()("button");
+        var newButton = document.createElement("p");
+        newButton.setAttribute("id", "nameButton" + (id + 1));
+        //newButton.onclick = () => colorButtonClick(id + 1);
+
+        newButton.onclick = () => colorButtonClick(id + 1);
+        newButton.textContent = "Add";
+        //var newLabel = document.createElement("label");
+        //newLabel.textContent = "New name";
+
+        //colorDiv.append(newLabel);
+        colorDiv.append(newInput);
+        colorDiv.append(newButton);
+
+        console.log(colors);
+        console.log(newButton);
+    };
+
+    $(document).ready(function() {
+
+        //addColorsToSelect(1);
+        $('#colorButton1').on('click',
+            function () {
+                colorButtonClick(1);
+            });
+
+
+        $("#taskForm").submit(function(event) {
+
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            var items = [];
+            // DO ZROBIENIA DLA WIELU ITEMOW
+            var item = {
+                colors: colors,
+                names: names,
+                anyColor: $('#anyColorCheck').val(),
+                size: $('#sizeSelect').val(),
+                category: $('#categorySelect').val()
+        };
+
+            var jason = {
+                item: item,
+
+            };
+
+            $.ajax({
+                    method: "POST",
+                    url: '/tasks/createtask',
+                    data: JSON.stringify(jason),
+                    contentType: 'application/json'
+
+                })
+                .done(function (data) {
+                    console.log("done");
+                    window.location.href = '@Url.Action("Index", "Tasks")';
+                })
+                .fail(function (data) {
+                    console.log("fail");
+                    console.log(data);
+                });
+
+        });
+
+    });
+
+
+
+</script>
