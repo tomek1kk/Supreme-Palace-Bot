@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SupremeBot.Models
@@ -19,5 +20,6 @@ namespace SupremeBot.Models
         public List<Item> Items { get; set; }
         public Card Card { get; set; }
         public Address Address { get; set; }
+        public Timer Timer { get; set; }
     }
 }

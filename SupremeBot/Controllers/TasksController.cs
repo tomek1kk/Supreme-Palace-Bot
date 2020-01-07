@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using SupremeBot.Data;
 using SupremeBot.Models;
 
@@ -46,6 +47,63 @@ namespace SupremeBot.Controllers
         public IEnumerable<Color> Colors()
         {
             return _context.Colors.ToList();
+        }
+
+        [Route("tasks/CreateTask")]
+        [HttpPost]
+        public IActionResult CreateTask([FromBody] JObject data)
+        {
+            bool anyColor = data["anyColor"].ToObject<bool>();
+            bool useTimer = data["useTimer"].ToObject<bool>();
+            bool onlyWithEmptyBasket = data["onlyWithEmptyBasket"].ToObject<bool>();
+            bool fillAddress = data["fillAddress"].ToObject<bool>();
+            int delay = data["delay"].ToObject<int>();
+            int refreshInterval = data["refreshInterval"].ToObject<int>();
+            List<JObject> itemsJson = data["items"].ToObject<List<JObject>>();
+
+            var items = new List<Item>();
+
+            foreach (var item in itemsJson)
+            {
+                Categories category = item["category"].ToObject<Categories>();
+                Sizes size = item["size"].ToObject<Sizes>();
+                var colorsString = item["colors"].ToObject<List<string>>();
+                var namesString = item["names"].ToObject<List<string>>();
+                List<Color> colors = new List<Color>();
+                List<ItemName> names = new List<ItemName>();
+
+                foreach (var color in colorsString)
+                {
+                    var col = new Color() {Name = color};
+                    colors.Add(col);
+                }
+
+                foreach (var name in namesString)
+                {
+                    var nam = new ItemName() { Name = name };
+                    names.Add(nam);
+                }
+
+                var newItem = new Item()
+                {
+                    Category = category, AnyColor = true, Colors = colors,
+                    Names = names, Size = size
+                };
+
+                items.Add(newItem);
+            }
+
+            TaskItem task = new TaskItem()
+            {
+                AnyColor = anyColor, Delay = delay, FillAdress = fillAddress,
+                OnlyWithEmptyBasket = onlyWithEmptyBasket, RefreshInterval = refreshInterval,
+                Items = items, UseTimer = useTimer
+            };
+
+            _context.TaskItems.Add(task);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
