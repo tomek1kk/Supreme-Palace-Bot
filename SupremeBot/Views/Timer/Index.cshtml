@@ -11,7 +11,57 @@
     <title>Index</title>
 </head>
 <body>
-    Program should start on @Model.Hour : @Model.Minute  : @Model.Second  
-    Time left: 
+    <p id="hour" hidden>@Model.Hour</p>
+    <p id="minute" hidden>@Model.Minute</p>
+    <p id="second" hidden>@Model.Second</p>
+    <p id="main-label">Program should start on @Model.Hour:@Model.Minute:@Model.Second</p>
+    <p id="counter">counting...</p>
 </body>
 </html>
+
+<script>
+    const TIME_SERVER_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=SxiYpwxzxdmqzwTHoxfoXGZwOvhLfnIYPmnMBGWiqdQlvE4aKHXZ_n7chjoFITw7uIlzs1hsnBMBOg34RHnSH3SqoEKW_wJ-m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnJ9GRkcRevgjTvo8Dc32iw_BLJPcPfRdVKhJT5HNzQuXEeN3QFwl2n0M6ZmO-h7C6eIqWsDnSrEd&lib=MwxUjRcLr2qLlnVOLh12wSNkqcO1Ikdrk";
+
+    fetch(TIME_SERVER_URL).then(timer => timer.json())
+        .then(timer => {
+            let hour = document.getElementById("hour").textContent;
+            let minute = document.getElementById("minute").textContent;
+            let second = document.getElementById("second").textContent;
+            let distance = (hour - timer.hours - 1) * 3600 + (minute - timer.minutes) * 60 + (second - timer.seconds);
+
+            var x = setInterval(function() {
+              var hours = Math.floor((distance % (60 * 60 * 24)) / (60 * 60));
+              var minutes = Math.floor((distance % (60 * 60)) / 60);
+              var seconds = Math.floor((distance % 60));
+
+                document.getElementById("counter").innerHTML = hours + ":"
+                    + minutes + ":" + seconds;
+
+              distance--;
+
+              if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("counter").innerHTML = "starting...";
+              }
+            }, 1000);
+        });
+    
+</script>
+
+<style>
+    body {
+        text-align: center;
+        background-color: #202020;
+    }
+
+    #main-label {
+        font-size: 50px;
+        color: white;
+        padding: 50px;
+    }
+
+    #counter {
+        font-size: 100px;
+        color: white;
+    }
+</style>
