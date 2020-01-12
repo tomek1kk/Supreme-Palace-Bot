@@ -53,6 +53,7 @@ namespace SupremeBot.Controllers
         [HttpPost]
         public IActionResult CreateTask([FromBody] JObject data)
         {
+            string taskName = data["name"].ToObject<string>();
             bool anyColor = data["anyColor"].ToObject<bool>();
             bool useTimer = data["useTimer"].ToObject<bool>();
             bool onlyWithEmptyBasket = data["onlyWithEmptyBasket"].ToObject<bool>();
@@ -105,6 +106,7 @@ namespace SupremeBot.Controllers
 
             TaskItem task = new TaskItem()
             {
+                Name = taskName,
                 AnyColor = anyColor, Delay = delay, FillAdress = fillAddress,
                 OnlyWithEmptyBasket = onlyWithEmptyBasket, RefreshInterval = refreshInterval,
                 Items = items, UseTimer = useTimer, Card = card, Address = address,
@@ -116,5 +118,22 @@ namespace SupremeBot.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            _context.TaskItems.Remove(new TaskItem() { Id = id });
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            TaskItem model = _context.TaskItems.FirstOrDefault(x => x.Id == id);
+
+            return View(model);
+        }
+
+
+
     }
 }

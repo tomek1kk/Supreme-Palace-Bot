@@ -55,7 +55,21 @@ namespace SupremeBot.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<ActionResult> Edit(int id)
+        {
+            var card = _context.Cards.FirstOrDefault(x => x.Id == id);
+            if (card != null)
+                return View(card);
+            else
+                return NotFound();
+        }
 
+        public async Task<ActionResult> EditCard(Card card)
+        {
+            _context.Cards.Update(card);
+            await _context.SaveChangesAsync();
 
+            return RedirectToAction("Index");
+        }
     }
 }

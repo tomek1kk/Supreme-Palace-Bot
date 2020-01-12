@@ -11,6 +11,7 @@ namespace SupremeBot.Models
     {
         [Key]
         public int Id { get; set; }
+        public string Name { get; set; }
         public int Delay { get; set; }
         public int RefreshInterval { get; set; }
         public bool OnlyWithEmptyBasket { get; set; }
