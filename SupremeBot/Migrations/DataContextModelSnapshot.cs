@@ -15,7 +15,7 @@ namespace SupremeBot.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -25,17 +25,26 @@ namespace SupremeBot.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address1");
+                    b.Property<string>("Address1")
+                        .IsRequired();
 
-                    b.Property<string>("City");
+                    b.Property<string>("City")
+                        .IsRequired();
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
-                    b.Property<string>("FullName");
+                    b.Property<string>("FullName")
+                        .IsRequired();
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
-                    b.Property<string>("PostCode");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired();
+
+                    b.Property<string>("PostCode")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -48,15 +57,22 @@ namespace SupremeBot.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CVV");
+                    b.Property<string>("CVV")
+                        .IsRequired();
 
-                    b.Property<string>("Month");
+                    b.Property<string>("Month")
+                        .IsRequired();
 
-                    b.Property<string>("Number");
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("Number")
+                        .IsRequired();
 
                     b.Property<int>("Type");
 
-                    b.Property<string>("Year");
+                    b.Property<string>("Year")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -134,9 +150,17 @@ namespace SupremeBot.Migrations
 
                     b.Property<bool>("FillAdress");
 
+                    b.Property<int>("Hour");
+
+                    b.Property<int>("Minute");
+
+                    b.Property<string>("Name");
+
                     b.Property<bool>("OnlyWithEmptyBasket");
 
                     b.Property<int>("RefreshInterval");
+
+                    b.Property<int>("Second");
 
                     b.Property<bool>("UseTimer");
 

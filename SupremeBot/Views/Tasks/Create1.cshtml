@@ -15,21 +15,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Delay" class="control-label"></label>
-                <input asp-for="Delay" class="form-control" id="delayInput"/>
+                <input type="number" value="0" class="form-control" id="delayInput" />
                 <span asp-validation-for="Delay" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RefreshInterval" class="control-label"></label>
-                <input asp-for="RefreshInterval" class="form-control" id="interval"/>
+                <input type="number" value="0" class="form-control" id="refreshIntervalInput" />
                 <span asp-validation-for="RefreshInterval" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Only with empty basket</label>
-                <input type="checkbox" id="onlyWithEmptyBasketInput"/>
-            </div>
-            <div class="form-group">
-                <label>Use timer</label>
-                <input type="checkbox" id="useTimerInput" />
+                <input type="checkbox" id="onlyWithEmptyBasketInput" />
             </div>
             <div class="form-group">
                 <label>Any color</label>
@@ -38,6 +34,19 @@
             <div class="form-group">
                 <label>Fill address</label>
                 <input type="checkbox" id="fillAddressInput" />
+            </div>
+            <div class="form-group">
+                <label>Use timer</label>
+                <input type="checkbox" id="useTimerInput" />
+                <input type="time" id="timeInput" style="display: none;" step="1"/>
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <select class="form-control" id="addressSelect"></select>
+            </div>
+            <div class="form-group">
+                <label>Cards</label>
+                <select class="form-control" id="cardSelect"></select>
             </div>
             @*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*@
 
@@ -72,8 +81,8 @@
                         <input type="checkbox" id="anyColorCheck"></input>
                     </div>
                     @*<div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-default" id="submitItem" />
-                    </div>*@
+                    <input type="submit" value="Create" class="btn btn-default" id="submitItem" />
+                </div>*@
                     @*</form>*@
                 </div>
             </div>
@@ -113,6 +122,42 @@
     //        });
     //};
 
+    var fillAddressSelect = () => {
+        var addressSelect = document.getElementById("addressSelect");
+
+        $.getJSON("/addresses/addresses")
+            .done(function(data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function(key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        addressSelect.add(option);
+                    });
+
+            });
+    };
+
+    var fillCardSelect = () => {
+        var cardSelect = document.getElementById("cardSelect");
+
+        $.getJSON("/cards/cards")
+            .done(function(data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function(key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        cardSelect.add(option);
+                    });
+
+            });
+    };
+
     var colorButtonClick = (id) => {
         var newColor = document.getElementById('colorInput' + id).value;
         var colorDiv = document.getElementById('colorsDiv');
@@ -134,10 +179,6 @@
         newButton.onclick = () => colorButtonClick(id + 1);
         newButton.textContent = "Add";
 
-        //var newLabel = document.createElement("label");
-        //newLabel.textContent = "New color";
-
-        //colorDiv.append(newLabel);
         colorDiv.append(newInput);
         colorDiv.append(newButton);
 
@@ -151,7 +192,7 @@
 
         names[id - 1] = newName;
 
-        if (id < colors.length) {
+        if (id < names.length) {
             return;
         }
 
@@ -163,18 +204,27 @@
         newButton.setAttribute("id", "nameButton" + (id + 1));
         //newButton.onclick = () => colorButtonClick(id + 1);
 
-        newButton.onclick = () => colorButtonClick(id + 1);
+        newButton.onclick = () => nameButtonClick(id + 1);
         newButton.textContent = "Add";
-        //var newLabel = document.createElement("label");
-        //newLabel.textContent = "New name";
 
-        //colorDiv.append(newLabel);
         colorDiv.append(newInput);
         colorDiv.append(newButton);
 
         console.log(colors);
         console.log(newButton);
     };
+
+    var timerCheckBoxClick = () => {
+        //var checkbox = document.getElementById('useTiem');
+        var timeInput = document.getElementById('timeInput');
+
+        if (timeInput.style.display == 'none')
+            timeInput.style.display = 'block';
+        else
+            timeInput.style.display = 'none';
+        console.log('timer checkbox clicked');
+
+    }
 
     $(document).ready(function() {
 
@@ -183,6 +233,16 @@
             function () {
                 colorButtonClick(1);
             });
+        $('#nameButton1').on('click',
+            function () {
+                nameButtonClick(1);
+            });
+
+        fillAddressSelect();
+        fillCardSelect();
+        document.getElementById('timeInput').value = '11:59:59';
+
+        document.getElementById('useTimerInput').onclick = timerCheckBoxClick;
 
 
         $("#taskForm").submit(function(event) {
@@ -199,11 +259,21 @@
                 size: $('#sizeSelect').val(),
                 category: $('#categorySelect').val()
         };
-
+            items.push(item);
             var jason = {
-                item: item,
-
+                items: items,
+                anyColor: document.getElementById('anyColorInput').checked,
+                delay: $('#delayInput').val(),
+                refreshInterval: $('#refreshIntervalInput').val(),
+                useTimer: document.getElementById('useTimerInput').checked,
+                onlyWithEmptyBasket: document.getElementById('onlyWithEmptyBasketInput').checked,
+                fillAddress: document.getElementById('fillAddressInput').checked,
+                address: document.getElementById('addressSelect').value,
+                card: document.getElementById('cardSelect').value,
+                time: document.getElementById('timeInput').value
             };
+
+            console.log(jason);
 
             $.ajax({
                     method: "POST",

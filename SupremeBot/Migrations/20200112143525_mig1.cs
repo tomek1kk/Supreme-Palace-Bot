@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SupremeBot.Migrations
 {
-    public partial class Mig1 : Migration
+    public partial class mig1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,12 +13,13 @@ namespace SupremeBot.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FullName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    Address1 = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    PostCode = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false),
+                    FullName = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: false),
+                    Address1 = table.Column<string>(nullable: false),
+                    City = table.Column<string>(nullable: false),
+                    PostCode = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,11 +32,12 @@ namespace SupremeBot.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Number = table.Column<string>(nullable: true),
-                    Month = table.Column<string>(nullable: true),
-                    Year = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Number = table.Column<string>(nullable: false),
+                    Month = table.Column<string>(nullable: false),
+                    Year = table.Column<string>(nullable: false),
                     Type = table.Column<int>(nullable: false),
-                    CVV = table.Column<string>(nullable: true)
+                    CVV = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,6 +50,7 @@ namespace SupremeBot.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
                     Delay = table.Column<int>(nullable: false),
                     RefreshInterval = table.Column<int>(nullable: false),
                     OnlyWithEmptyBasket = table.Column<bool>(nullable: false),
@@ -55,7 +58,10 @@ namespace SupremeBot.Migrations
                     AnyColor = table.Column<bool>(nullable: false),
                     FillAdress = table.Column<bool>(nullable: false),
                     CardId = table.Column<int>(nullable: true),
-                    AddressId = table.Column<int>(nullable: true)
+                    AddressId = table.Column<int>(nullable: true),
+                    Hour = table.Column<int>(nullable: false),
+                    Minute = table.Column<int>(nullable: false),
+                    Second = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

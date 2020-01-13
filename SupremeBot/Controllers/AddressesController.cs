@@ -17,6 +17,13 @@ namespace SupremeBot.Controllers
             _context = context;
         }
 
+        [Route("Addresses/Addresses")]
+        [HttpGet]
+        public List<Address> Addresses()
+        {
+            return _context.Addresses.ToList();
+        }
+
         [Route("Addresses/Index")]
         [HttpGet]
         public IActionResult Index()
@@ -48,7 +55,22 @@ namespace SupremeBot.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<ActionResult> Edit(int id)
+        {
+            var address = _context.Addresses.FirstOrDefault(x => x.Id == id);
+            if (address != null)
+                return View(address);
+            else
+                return NotFound();
+        }
 
+        public async Task<ActionResult> EditAddress(Address address)
+        {
+            _context.Addresses.Update(address);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
 
     }
 }

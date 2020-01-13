@@ -10,7 +10,7 @@ using SupremeBot.Data;
 namespace SupremeBot.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200106175834_Mig1")]
+    [Migration("20200107194949_Mig1")]
     partial class Mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,8 @@ namespace SupremeBot.Migrations
 
                     b.Property<string>("FullName");
 
+                    b.Property<string>("Name");
+
                     b.Property<string>("PhoneNumber");
 
                     b.Property<string>("PostCode");
@@ -53,6 +55,8 @@ namespace SupremeBot.Migrations
                     b.Property<string>("CVV");
 
                     b.Property<string>("Month");
+
+                    b.Property<string>("Name");
 
                     b.Property<string>("Number");
 
@@ -136,9 +140,15 @@ namespace SupremeBot.Migrations
 
                     b.Property<bool>("FillAdress");
 
+                    b.Property<int>("Hour");
+
+                    b.Property<int>("Minute");
+
                     b.Property<bool>("OnlyWithEmptyBasket");
 
                     b.Property<int>("RefreshInterval");
+
+                    b.Property<int>("Second");
 
                     b.Property<bool>("UseTimer");
 
