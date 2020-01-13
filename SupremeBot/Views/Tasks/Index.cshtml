@@ -9,6 +9,8 @@
 
 <p>
     <a asp-action="Create">Create New</a>
+    <br/>
+    <button id="test" class="btn btn-sm">Run test</button>
 </p>
 <table class="table">
     <thead>
@@ -64,3 +66,10 @@
 }
     </tbody>
 </table>
+
+<script>
+    document.getElementById("test").addEventListener("click", function () {
+        localStorage.setItem("test", "true");
+        window.open('https://www.supremenewyork.com/shop/all');
+    });
+</script>

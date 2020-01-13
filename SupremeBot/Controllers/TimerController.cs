@@ -13,9 +13,9 @@ namespace SupremeBot.Controllers
         {
             time = new Time
             {
-                Hour = 20,
-                Minute = 42,
-                Second = 20
+                Hour = 11,
+                Minute = 59,
+                Second = 50
             };
             return View(time);
         }
