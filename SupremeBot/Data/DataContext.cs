@@ -17,6 +17,7 @@ namespace SupremeBot.Data
         public DbSet<Card> Cards { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Site> Sites { get; set; }
 
     }
 }

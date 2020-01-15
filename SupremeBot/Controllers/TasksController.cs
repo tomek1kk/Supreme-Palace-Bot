@@ -53,7 +53,8 @@ namespace SupremeBot.Controllers
         [HttpPost]
         public IActionResult CreateTask([FromBody] JObject data)
         {
-            string taskName = data["name"].ToObject<string>();
+            //string taskName = data["name"].ToObject<string>();
+            string taskName = "Task name";
             bool anyColor = data["anyColor"].ToObject<bool>();
             bool useTimer = data["useTimer"].ToObject<bool>();
             bool onlyWithEmptyBasket = data["onlyWithEmptyBasket"].ToObject<bool>();
@@ -68,6 +69,7 @@ namespace SupremeBot.Controllers
             int minute = Int32.Parse(timeList[1]);
             int second = Int32.Parse(timeList[2]);
             List<JObject> itemsJson = data["items"].ToObject<List<JObject>>();
+            int siteId = data["site"].ToObject<int>();
 
             var items = new List<Item>();
 
@@ -103,6 +105,7 @@ namespace SupremeBot.Controllers
 
             Card card = _context.Cards.FirstOrDefault(x => x.Id == cardId);
             Address address = _context.Addresses.FirstOrDefault(x => x.Id == addressId);
+            Site site = _context.Sites.FirstOrDefault(x => x.Id == siteId);
 
             TaskItem task = new TaskItem()
             {
@@ -110,7 +113,7 @@ namespace SupremeBot.Controllers
                 AnyColor = anyColor, Delay = delay, FillAdress = fillAddress,
                 OnlyWithEmptyBasket = onlyWithEmptyBasket, RefreshInterval = refreshInterval,
                 Items = items, UseTimer = useTimer, Card = card, Address = address,
-                Hour  = hour, Minute = minute, Second = second
+                Hour  = hour, Minute = minute, Second = second, Site = site.Id
             };
 
             _context.TaskItems.Add(task);
@@ -126,13 +129,18 @@ namespace SupremeBot.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
             TaskItem model = _context.TaskItems.FirstOrDefault(x => x.Id == id);
 
             return View(model);
         }
 
+        public IActionResult Start(int id)
+        {
+            TasksApiController.SetCurrentId(id);
+            return RedirectToAction("Index");
+        }
 
 
     }

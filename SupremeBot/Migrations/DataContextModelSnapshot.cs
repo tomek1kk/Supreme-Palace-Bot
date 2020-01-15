@@ -15,7 +15,7 @@ namespace SupremeBot.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -134,6 +134,23 @@ namespace SupremeBot.Migrations
                     b.ToTable("ItemNames");
                 });
 
+            modelBuilder.Entity("SupremeBot.Models.Site", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("SiteUrl")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sites");
+                });
+
             modelBuilder.Entity("SupremeBot.Models.TaskItem", b =>
                 {
                     b.Property<int>("Id")
@@ -161,6 +178,8 @@ namespace SupremeBot.Migrations
                     b.Property<int>("RefreshInterval");
 
                     b.Property<int>("Second");
+
+                    b.Property<int>("Site");
 
                     b.Property<bool>("UseTimer");
 

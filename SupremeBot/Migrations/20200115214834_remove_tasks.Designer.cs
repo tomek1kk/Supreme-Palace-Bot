@@ -10,14 +10,14 @@ using SupremeBot.Data;
 namespace SupremeBot.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200112143525_mig1")]
-    partial class mig1
+    [Migration("20200115214834_remove_tasks")]
+    partial class remove_tasks
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -136,6 +136,23 @@ namespace SupremeBot.Migrations
                     b.ToTable("ItemNames");
                 });
 
+            modelBuilder.Entity("SupremeBot.Models.Site", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("SiteUrl")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sites");
+                });
+
             modelBuilder.Entity("SupremeBot.Models.TaskItem", b =>
                 {
                     b.Property<int>("Id")
@@ -164,6 +181,8 @@ namespace SupremeBot.Migrations
 
                     b.Property<int>("Second");
 
+                    b.Property<int?>("SiteId");
+
                     b.Property<bool>("UseTimer");
 
                     b.HasKey("Id");
@@ -171,6 +190,8 @@ namespace SupremeBot.Migrations
                     b.HasIndex("AddressId");
 
                     b.HasIndex("CardId");
+
+                    b.HasIndex("SiteId");
 
                     b.ToTable("TaskItems");
                 });
@@ -205,6 +226,10 @@ namespace SupremeBot.Migrations
                     b.HasOne("SupremeBot.Models.Card", "Card")
                         .WithMany()
                         .HasForeignKey("CardId");
+
+                    b.HasOne("SupremeBot.Models.Site", "Site")
+                        .WithMany()
+                        .HasForeignKey("SiteId");
                 });
 #pragma warning restore 612, 618
         }

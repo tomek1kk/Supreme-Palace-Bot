@@ -1,4 +1,4 @@
-﻿@model SupremeBot.Models.Time
+﻿@model SupremeBot.Models.TimerViewModel
 @{
     Layout = null;
 }
@@ -11,9 +11,11 @@
     <title>Index</title>
 </head>
 <body>
+    
     <p id="hour" hidden>@Model.Hour</p>
     <p id="minute" hidden>@Model.Minute</p>
     <p id="second" hidden>@Model.Second</p>
+    <p id="main-label">Site:</p><p id="site"> @Model.SiteUrl</p>
     <p id="main-label">Program should start on @Model.Hour:@Model.Minute:@Model.Second</p>
     <p id="counter">counting...</p>
 </body>
@@ -41,7 +43,11 @@
 
               if (distance < 0) {
                 clearInterval(x);
-                document.getElementById("counter").innerHTML = "starting...";
+                  document.getElementById("counter").innerHTML = "starting...";
+
+                  let url = document.getElementById("site").textContent;
+                  window.open(url);
+                  
               }
             }, 1000);
         });
@@ -57,10 +63,15 @@
     #main-label {
         font-size: 50px;
         color: white;
-        padding: 50px;
+    }
+
+    #site {
+        font-size: 50px;
+        color: red;
     }
 
     #counter {
+        padding: 50px;
         font-size: 100px;
         color: white;
     }

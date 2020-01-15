@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace SupremeBot.Models
 {
-    public class Time
+    public class TimerParams
     {
         public int Hour { get; set; }
         public int Minute { get; set; }
         public int Second { get; set; }
+        public int Site { get; set; }
+        public int TaskId { get; set; }
     }
 }

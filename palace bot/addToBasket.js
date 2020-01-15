@@ -47,7 +47,34 @@ const addToCart = async () =>
 
 if (url == main_url)
 {
-    chrome.runtime.sendMessage({redirect: url + "collections/" + category});
+    //chrome.runtime.sendMessage({redirect: url + "collections/" + category});
+    // fetch("https://localhost:44343/api/tasks/getcurrenttask").then(r => r.json()).then(r => console.log(r));
+    fetch("https://localhost:44343/api/tasks/getcurrenttask").then(r => r.json()).then(r => console.log(r));
+    const TIME_SERVER_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=SxiYpwxzxdmqzwTHoxfoXGZwOvhLfnIYPmnMBGWiqdQlvE4aKHXZ_n7chjoFITw7uIlzs1hsnBMBOg34RHnSH3SqoEKW_wJ-m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnJ9GRkcRevgjTvo8Dc32iw_BLJPcPfRdVKhJT5HNzQuXEeN3QFwl2n0M6ZmO-h7C6eIqWsDnSrEd&lib=MwxUjRcLr2qLlnVOLh12wSNkqcO1Ikdrk";
+
+		// TESTING SERVER TIME
+	fetch(TIME_SERVER_URL).then(timer => timer.json()).then(timer => {
+				console.log(timer);
+			});
+    // $.ajax({
+    //     url: "https://localhost:44343/api/tasks/getcurrenttask",
+    //     type: "GET",
+    //     success: function(response) {
+    //         console.log(response);
+    //     }
+
+    //   });
+    // var xmlhttp = new XMLHttpRequest();
+    // var url2 = "https://localhost:44343/api/tasks/getcurrenttask";
+
+    // xmlhttp.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         var myArr = JSON.parse(this.responseText);
+    //         console.log(myArr);
+    //     }
+    // };
+    // xmlhttp.open("GET", url2, true);
+    // xmlhttp.send();
 }
 
 else if (url == category_url) // in category

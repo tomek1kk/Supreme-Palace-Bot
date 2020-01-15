@@ -71,7 +71,17 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+
+                    @Html.ActionLink("Start", "Index", "Timer",
+                    new
+                    {
+                        Hour = item.Hour,
+                        Minute = item.Minute,
+                        Second = item.Second,
+                        Site = item.Site,
+                        TaskId = item.Id
+                    })
                 </td>
             </tr>
         }
@@ -83,4 +93,5 @@
         localStorage.setItem("test", "true");
         window.open('https://www.supremenewyork.com/shop/all');
     });
+
 </script>

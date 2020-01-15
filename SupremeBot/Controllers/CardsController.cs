@@ -71,5 +71,12 @@ namespace SupremeBot.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [Route("Sites/Sites")]
+        public List<Site> Sites()
+        {
+            var sites = _context.Sites.ToList();
+            return sites;
+        }
     }
 }
