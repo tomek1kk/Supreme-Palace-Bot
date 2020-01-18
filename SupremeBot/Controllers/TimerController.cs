@@ -55,21 +55,13 @@ namespace SupremeBot.Controllers
             var driver = new ChromeDriver();
 
             driver.Navigate().GoToUrl("https://shop.palaceskateboards.com/");
-            //driver.Title;
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-
             string script = PrepareScript(siteId, taskId);
-            //string script = PrepareScript(2, 2);
-
-
             js.ExecuteAsyncScript(script);
-            //await js.ExecuteAsyncScript("console.log('dupa dupa');");
-
         }
 
         private string PrepareScript(int siteId, int taskId)
         {
-            //string path = "/../../../wwwroot/botScripts/";
             string path = "wwwroot/botScripts/";
             string data = String.Empty;
             string script = String.Empty;
