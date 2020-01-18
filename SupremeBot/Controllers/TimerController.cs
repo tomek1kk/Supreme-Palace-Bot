@@ -46,10 +46,9 @@ namespace SupremeBot.Controllers
             //});
         }
 
-        public async Task Execute(int taskId)
+        [Route("Timer/Execute/{taskId}")]
+        public async Task Execute([FromRoute]int taskId)
         {
-            taskId = 2; //////////////////////////////////////////////////////////////////////////////////////////////////////
-
             int siteId = _context.TaskItems.FirstOrDefault(x => x.Id == taskId).Site;
 
             new DriverManager().SetUpDriver(new ChromeConfig());
@@ -59,8 +58,8 @@ namespace SupremeBot.Controllers
             //driver.Title;
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
 
-            //string script = PrepareScript(siteId, taskId);
-            string script = PrepareScript(2, 2);
+            string script = PrepareScript(siteId, taskId);
+            //string script = PrepareScript(2, 2);
 
 
             js.ExecuteAsyncScript(script);

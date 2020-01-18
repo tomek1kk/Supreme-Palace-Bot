@@ -51,7 +51,9 @@
                 var jason = { taskId: @Model.TaskId, siteId: @Model.Site };
                   console.log('hehehehehehe');
                 console.log(jason);
-                  window.location.href = '@Url.Action("Execute", "Timer", Model.TaskId)';
+                //console.log(@Model.TaskId);
+                console.log('@Url.Action("Execute", "Timer", new {taskId = Model.TaskId})');
+                  window.location.href = '@Url.Action("Execute", "Timer", new {taskId = Model.TaskId})';
 
               }
             }, 1000);
