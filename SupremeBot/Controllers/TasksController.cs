@@ -53,8 +53,8 @@ namespace SupremeBot.Controllers
         [HttpPost]
         public IActionResult CreateTask([FromBody] JObject data)
         {
-            //string taskName = data["name"].ToObject<string>();
-            string taskName = "Task name";
+            string taskName = data["name"].ToObject<string>();
+            //string taskName = "Task name";
             bool anyColor = data["anyColor"].ToObject<bool>();
             bool useTimer = data["useTimer"].ToObject<bool>();
             bool onlyWithEmptyBasket = data["onlyWithEmptyBasket"].ToObject<bool>();

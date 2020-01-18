@@ -6,7 +6,7 @@ namespace SupremeBot.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DELETE FROM TaskItems WHERE SiteId == NULL");
+            migrationBuilder.Sql("DELETE FROM TaskItems WHERE SiteId = NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
