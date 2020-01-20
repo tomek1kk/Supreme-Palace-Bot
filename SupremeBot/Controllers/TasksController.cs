@@ -142,6 +142,11 @@ namespace SupremeBot.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Details(int id)
+        {
+            var task = _context.TaskItems.Find(id);
+            return View(task);
+        }
 
     }
 }
