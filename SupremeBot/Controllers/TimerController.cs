@@ -12,6 +12,7 @@ using SupremeBot.Models;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 
@@ -35,6 +36,8 @@ namespace SupremeBot.Controllers
             else
                 url = "https://supremenewyork.com/shop/all";
 
+            @ViewBag.SiteUrl = url;
+
             return View(model);
 
             //return View(new TimerViewModel
@@ -47,17 +50,39 @@ namespace SupremeBot.Controllers
         }
 
         [Route("Timer/Execute/{taskId}")]
-        public async Task Execute([FromRoute]int taskId)
+        public async Task<IActionResult> Execute([FromRoute]int taskId)
         {
             int siteId = _context.TaskItems.FirstOrDefault(x => x.Id == taskId).Site;
 
             new DriverManager().SetUpDriver(new ChromeConfig());
             var driver = new ChromeDriver();
+            //List<String> tabs = new List<String>(driver.WindowHandles);
+            //driver.SwitchTo().Window(tabs[0]); //switches to new tab
 
-            driver.Navigate().GoToUrl("https://shop.palaceskateboards.com/");
+            //driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
+            //new WebDriverWait(driver, TimeSpan.FromSeconds(20)).Until(
+            //    d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
+            if (siteId == 2)
+            {
+                driver.Navigate().GoToUrl("https://shop.palaceskateboards.com/");
+            }
+            else if (siteId == 3)
+            {
+                driver.Navigate().GoToUrl("https://helascaps.com/");
+            }
             IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
             string script = PrepareScript(siteId, taskId);
-            js.ExecuteAsyncScript(script);
+
+            try
+            {
+                js.ExecuteAsyncScript(script);
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            return RedirectToAction("Index", "Tasks");
         }
 
         private string PrepareScript(int siteId, int taskId)
@@ -82,6 +107,10 @@ namespace SupremeBot.Controllers
                     break;
                 case 3:
                     data = PrepareHelasData(taskId);
+                    using (StreamReader streamReader = new StreamReader(path + "helas.txt", Encoding.UTF8))
+                    {
+                        script = streamReader.ReadToEnd();
+                    }
                     break;
             }
 
@@ -93,7 +122,7 @@ namespace SupremeBot.Controllers
 
         private string PrepareHelasData(int taskId)
         {
-            throw new NotImplementedException();
+            return "";
         }
 
         private string PreparePalaceData(int taskId)

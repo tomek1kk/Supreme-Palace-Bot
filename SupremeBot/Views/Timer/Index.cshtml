@@ -15,7 +15,7 @@
     <p id="hour" hidden>@Model.Hour</p>
     <p id="minute" hidden>@Model.Minute</p>
     <p id="second" hidden>@Model.Second</p>
-    @*<p id="main-label">Site:</p><p id="site"> @Model.SiteUrl</p>*@
+    <p id="main-label">Site:</p><p id="site"> @ViewBag.SiteUrl</p>
     <p id="main-label">Program should start on @Model.Hour:@Model.Minute:@Model.Second</p>
     <p id="counter">counting...</p>
 </body>

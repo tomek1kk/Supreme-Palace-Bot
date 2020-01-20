@@ -1,9 +1,10 @@
-
+console.log("POCZATEK");
 let url = window.location.href;
 const main_url = "https://shop.palaceskateboards.com/";
 const cart_url = "https://shop.palaceskateboards.com/cart";
 const category_url = main_url + "collections/" + category;
 const SIZES = ["Small", "Medium", "Large", "X-Large"];
+const SIZE = "Small";
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -24,18 +25,21 @@ const addToCart = async () => {
         }
 
     }
-    //chrome.runtime.sendMessage({ redirect: cart_url });
     window.location.href = cart_url;
+    //return;
 }
 
 
+
 if (url == main_url) {
+    console.log("jestem w main");
     //chrome.runtime.sendMessage({ redirect: category_url });
     window.location.href = category_url;
 }
 
 else if (url == category_url) // in category
 {
+    console.log("jestem w kategorii");
     let scroll = setInterval(function () {
         document.documentElement.scrollTop = document.documentElement.scrollHeight; // scroll
         lookForItem(scroll);
