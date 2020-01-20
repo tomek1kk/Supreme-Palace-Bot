@@ -1,4 +1,4 @@
-﻿@model SupremeBot.Models.TimerViewModel
+﻿@model SupremeBot.Models.TimerParams
 @{
     Layout = null;
 }
@@ -11,11 +11,11 @@
     <title>Index</title>
 </head>
 <body>
-    
+
     <p id="hour" hidden>@Model.Hour</p>
     <p id="minute" hidden>@Model.Minute</p>
     <p id="second" hidden>@Model.Second</p>
-    <p id="main-label">Site:</p><p id="site"> @Model.SiteUrl</p>
+    @*<p id="main-label">Site:</p><p id="site"> @Model.SiteUrl</p>*@
     <p id="main-label">Program should start on @Model.Hour:@Model.Minute:@Model.Second</p>
     <p id="counter">counting...</p>
 </body>
@@ -45,13 +45,20 @@
                 clearInterval(x);
                   document.getElementById("counter").innerHTML = "starting...";
 
-                  let url = document.getElementById("site").textContent;
-                  window.open(url);
-                  
+                  //let url = document.getElementById("site").textContent;
+                  //window.open(url);
+                  //window.location.href = '@Url.Action("Execute", "Timer")';
+                var jason = { taskId: @Model.TaskId, siteId: @Model.Site };
+                  console.log('hehehehehehe');
+                console.log(jason);
+                //console.log(@Model.TaskId);
+                console.log('@Url.Action("Execute", "Timer", new {taskId = Model.TaskId})');
+                  window.location.href = '@Url.Action("Execute", "Timer", new {taskId = Model.TaskId})';
+
               }
             }, 1000);
         });
-    
+
 </script>
 
 <style>

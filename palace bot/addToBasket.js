@@ -7,14 +7,14 @@ const ITEM_NAME = "ZIP IT";
 const COLOR = "GREY";
 const SIZES = ["Small", "Medium", "Large", "X-Large"];
 const BILLING_INFO = {
-		"first name": "First",
-		"last name": "Last",
-		"email": "email@test.com",
-		"tel": "123456789",
-		"address": "address test",
-		"city": "City",
-		"postal code": "00000",
-		"phone": "123456789"
+        "first name": "First",
+        "last name": "Last",
+        "email": "email@test.com",
+        "tel": "123456789",
+        "address": "address test",
+        "city": "City",
+        "postal code": "00000",
+        "phone": "123456789"
 }
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -54,11 +54,18 @@ if (url == main_url)
     .then(r => console.log(r));
     const TIME_SERVER_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=SxiYpwxzxdmqzwTHoxfoXGZwOvhLfnIYPmnMBGWiqdQlvE4aKHXZ_n7chjoFITw7uIlzs1hsnBMBOg34RHnSH3SqoEKW_wJ-m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnJ9GRkcRevgjTvo8Dc32iw_BLJPcPfRdVKhJT5HNzQuXEeN3QFwl2n0M6ZmO-h7C6eIqWsDnSrEd&lib=MwxUjRcLr2qLlnVOLh12wSNkqcO1Ikdrk";
 
+<<<<<<< HEAD
 		// TESTING SERVER TIME
 	fetch(TIME_SERVER_URL).then(timer => timer.json())
     .then(timer => {
 				console.log(timer);
 			});
+=======
+        // TESTING SERVER TIME
+    fetch(TIME_SERVER_URL).then(timer => timer.json()).then(timer => {
+                console.log(timer);
+            });
+>>>>>>> 58f12c0c87624210853a3e8494cdd57ff0db6dda
     // $.ajax({
     //     url: "https://localhost:44343/api/tasks/getcurrenttask",
     //     type: "GET",
@@ -97,32 +104,32 @@ else if (url.includes("https://shop.palaceskateboards.com/products/")) // in pro
 
 else if (url == cart_url)
 {
-	document.getElementById("terms-checkbox").checked = true;
+    document.getElementById("terms-checkbox").checked = true;
     document.getElementById("checkout").click();
 }
 
 else if (url.includes("checkouts"))
 {
     let inputs = document.querySelectorAll('input:not([type=submit]):not([type=hidden])');
-	console.log(inputs);
-	if (inputs.length > 10) {
-		inputs.forEach(function(element) {
-			let prev_sibling = element.previousElementSibling;
-			if (prev_sibling != null) 
-			{
-				let label_text = prev_sibling.innerHTML.toLowerCase();
-				console.log(label_text);
-				let value = BILLING_INFO[label_text];
-				console.log(value);
-				if (value != null)
-					setInput(element, value);   
-			}
-		});
-	}
-	else {
-		document.getElementsByClassName("step__footer__continue-btn")[0].click();
-		
-	}
+    console.log(inputs);
+    if (inputs.length > 10) {
+        inputs.forEach(function(element) {
+            let prev_sibling = element.previousElementSibling;
+            if (prev_sibling != null) 
+            {
+                let label_text = prev_sibling.innerHTML.toLowerCase();
+                console.log(label_text);
+                let value = BILLING_INFO[label_text];
+                console.log(value);
+                if (value != null)
+                    setInput(element, value);   
+            }
+        });
+    }
+    else {
+        document.getElementsByClassName("step__footer__continue-btn")[0].click();
+        
+    }
 }
 
 function lookForItem(scroll)
@@ -153,7 +160,7 @@ function wait(cartCount)
 }
 
 function setInput(element, value) {
-	element.focus();
-	element.value = value;
-	element.blur();	
+    element.focus();
+    element.value = value;
+    element.blur();    
 }
