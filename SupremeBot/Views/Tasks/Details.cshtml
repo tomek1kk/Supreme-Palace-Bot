@@ -1,0 +1,85 @@
+﻿@model SupremeBot.Models.TaskItem
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TaskItem</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delay)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Delay)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RefreshInterval)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RefreshInterval)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OnlyWithEmptyBasket)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OnlyWithEmptyBasket)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UseTimer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UseTimer)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AnyColor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AnyColor)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FillAdress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FillAdress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Hour)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Hour)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Minute)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Minute)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Second)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Second)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Site)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Site)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

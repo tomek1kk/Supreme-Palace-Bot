@@ -43,5 +43,12 @@ namespace SupremeBot.Controllers
                 return "not found";
             return task;
         }
+
+        [Route("api/Tasks/Test")]
+        [HttpGet]
+        public object Test()
+        {
+            return new { cos = "coss" };
+        }
     }
 }
