@@ -6,16 +6,7 @@ const cart_url = "https://shop.palaceskateboards.com/cart";
 const ITEM_NAME = "ZIP IT";
 const COLOR = "GREY";
 const SIZES = ["Small", "Medium", "Large", "X-Large"];
-const BILLING_INFO = {
-        "first name": "First",
-        "last name": "Last",
-        "email": "email@test.com",
-        "tel": "123456789",
-        "address": "address test",
-        "city": "City",
-        "postal code": "00000",
-        "phone": "123456789"
-}
+
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -49,34 +40,23 @@ if (url == main_url)
 {
     //chrome.runtime.sendMessage({redirect: url + "collections/" + category});
     // fetch("https://localhost:44343/api/tasks/getcurrenttask").then(r => r.json()).then(r => console.log(r));
-    fetch("https://localhost:44343/api/tasks/test")//, {mode: 'no-cors'})
+    fetch("https://localhost:44343/api/tasks/getcurrenttask")
     .then(r => r.json())
-    .then(r => console.log(r));
-    const TIME_SERVER_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=SxiYpwxzxdmqzwTHoxfoXGZwOvhLfnIYPmnMBGWiqdQlvE4aKHXZ_n7chjoFITw7uIlzs1hsnBMBOg34RHnSH3SqoEKW_wJ-m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnJ9GRkcRevgjTvo8Dc32iw_BLJPcPfRdVKhJT5HNzQuXEeN3QFwl2n0M6ZmO-h7C6eIqWsDnSrEd&lib=MwxUjRcLr2qLlnVOLh12wSNkqcO1Ikdrk";
+    .then(r => 
+        {
+            //console.log(r.name);
+            sessionStorage.setItem('firstName', r.address.name);
+            sessionStorage.setItem('lastName', r.address.fullName);
+            sessionStorage.setItem('email', r.address.email);
+            sessionStorage.setItem('tel', r.address.phoneNumber);
+            sessionStorage.setItem('address', r.address.address1);
+            sessionStorage.setItem('city', r.address.city);
+            sessionStorage.setItem('postal code', r.address.postCode);
+            sessionStorage.setItem('phone', r.address.phoneNumber);
+            chrome.runtime.sendMessage({redirect: url + "collections/" + category});
+        });
 
-        // TESTING SERVER TIME
-    fetch(TIME_SERVER_URL).then(timer => timer.json()).then(timer => {
-                console.log(timer);
-            });
-    // $.ajax({
-    //     url: "https://localhost:44343/api/tasks/getcurrenttask",
-    //     type: "GET",
-    //     success: function(response) {
-    //         console.log(response);
-    //     }
 
-    //   });
-    // var xmlhttp = new XMLHttpRequest();
-    // var url2 = "https://localhost:44343/api/tasks/getcurrenttask";
-
-    // xmlhttp.onreadystatechange = function() {
-    //     if (this.readyState == 4 && this.status == 200) {
-    //         var myArr = JSON.parse(this.responseText);
-    //         console.log(myArr);
-    //     }
-    // };
-    // xmlhttp.open("GET", url2, true);
-    // xmlhttp.send();
 }
 
 else if (url == category_url) // in category
@@ -102,6 +82,16 @@ else if (url == cart_url)
 
 else if (url.includes("checkouts"))
 {
+    let BILLING_INFO = {
+        "first name": sessionStorage.getItem("firstName"),
+        "last name": sessionStorage.getItem("lastName"),
+        "email": sessionStorage.getItem("email"),
+        "tel": sessionStorage.getItem("tel"),
+        "address": sessionStorage.getItem("address"),
+        "city": sessionStorage.getItem("city"),
+        "postal code": sessionStorage.getItem("postal code"),
+        "phone": sessionStorage.getItem("phone"),
+    }
     let inputs = document.querySelectorAll('input:not([type=submit]):not([type=hidden])');
     console.log(inputs);
     if (inputs.length > 10) {

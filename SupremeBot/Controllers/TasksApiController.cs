@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SupremeBot.Data;
+using SupremeBot.Models;
 
 namespace SupremeBot.Controllers
 {
-
+    [EnableCors]
     [ApiController]
     public class TasksApiController : ControllerBase
     {
@@ -38,17 +41,17 @@ namespace SupremeBot.Controllers
         [HttpGet]
         public object GetCurrentTask()
         {
-            var task = _context.TaskItems.Find(currentId);
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            TaskItem task = _context.TaskItems.Find(currentId);
             if (task == null)
                 return "not found";
-            return task;
-        }
 
-        [Route("api/Tasks/Test")]
-        [HttpGet]
-        public object Test()
-        {
-            return new { cos = "coss" };
+            object taskObject = new
+            {
+                address = _context.Addresses.Find(task.AddressId),
+                card = _context.Cards.Find(task.CardId)
+            };
+            return taskObject;
         }
     }
 }

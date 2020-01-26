@@ -45,15 +45,15 @@
                 clearInterval(x);
                   document.getElementById("counter").innerHTML = "starting...";
 
-                  //let url = document.getElementById("site").textContent;
-                  //window.open(url);
-                  //window.location.href = '@Url.Action("Execute", "Timer")';
+                  let url = document.getElementById("site").textContent;
+                  window.open(url);
+                  @*//window.location.href = '@Url.Action("Execute", "Timer")';
                 var jason = { taskId: @Model.TaskId, siteId: @Model.Site };
                   console.log('hehehehehehe');
                 console.log(jason);
                 //console.log(@Model.TaskId);
                 console.log('@Url.Action("Execute", "Timer", new {taskId = Model.TaskId})');
-                  window.location.href = '@Url.Action("Execute", "Timer", new {taskId = Model.TaskId})';
+                  window.location.href = '@Url.Action("Execute", "Timer", new {taskId = Model.TaskId})';*@
 
               }
             }, 1000);

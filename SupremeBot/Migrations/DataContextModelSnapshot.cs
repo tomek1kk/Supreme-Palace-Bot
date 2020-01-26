@@ -108,11 +108,7 @@ namespace SupremeBot.Migrations
 
                     b.Property<int>("Size");
 
-                    b.Property<int?>("TaskItemId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TaskItemId");
 
                     b.ToTable("Items");
                 });
@@ -157,11 +153,11 @@ namespace SupremeBot.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AddressId");
+                    b.Property<int>("AddressId");
 
                     b.Property<bool>("AnyColor");
 
-                    b.Property<int?>("CardId");
+                    b.Property<int>("CardId");
 
                     b.Property<int>("Delay");
 
@@ -185,10 +181,6 @@ namespace SupremeBot.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("CardId");
-
                     b.ToTable("TaskItems");
                 });
 
@@ -199,29 +191,11 @@ namespace SupremeBot.Migrations
                         .HasForeignKey("ItemId");
                 });
 
-            modelBuilder.Entity("SupremeBot.Models.Item", b =>
-                {
-                    b.HasOne("SupremeBot.Models.TaskItem")
-                        .WithMany("Items")
-                        .HasForeignKey("TaskItemId");
-                });
-
             modelBuilder.Entity("SupremeBot.Models.ItemName", b =>
                 {
                     b.HasOne("SupremeBot.Models.Item")
                         .WithMany("Names")
                         .HasForeignKey("ItemId");
-                });
-
-            modelBuilder.Entity("SupremeBot.Models.TaskItem", b =>
-                {
-                    b.HasOne("SupremeBot.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.HasOne("SupremeBot.Models.Card", "Card")
-                        .WithMany()
-                        .HasForeignKey("CardId");
                 });
 #pragma warning restore 612, 618
         }

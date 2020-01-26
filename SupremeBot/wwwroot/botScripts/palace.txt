@@ -1,5 +1,6 @@
 console.log("POCZATEK");
 let url = window.location.href;
+console.log(url);
 const main_url = "https://shop.palaceskateboards.com/";
 const cart_url = "https://shop.palaceskateboards.com/cart";
 const category_url = main_url + "collections/" + category;
@@ -7,27 +8,6 @@ const SIZES = ["Small", "Medium", "Large", "X-Large"];
 const SIZE = "Small";
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
-
-const addToCart = async () => {
-    for (let i = 0; i < SIZES.length; i++) {
-        let cartCount = document.getElementsByClassName("cart-count")[0].textContent;
-        for (let j = 0; j < document.getElementById("product-select").length; j++) {
-            if (document.getElementById("product-select").options[j].textContent == SIZES[i]) {
-                document.getElementsByClassName("add cart-btn clearfix")[0].disabled = false;
-                console.log("Found size " + SIZES[i]);
-                document.getElementById("product-select").selectedIndex = j;
-                document.getElementsByClassName("add cart-btn clearfix")[0].click();
-                while (document.getElementsByClassName("cart-count")[0].textContent == cartCount) {
-                    await delay(50);
-                }
-                break;
-            }
-        }
-
-    }
-    window.location.href = cart_url;
-    //return;
-}
 
 
 
@@ -50,6 +30,28 @@ else if (url == category_url) // in category
 else if (url.includes("https://shop.palaceskateboards.com/products/")) // in product
 {
     console.log('przed dodaniem');
+	const addToCart = async () => {
+    for (let i = 0; i < SIZES.length; i++) {
+        let cartCount = document.getElementsByClassName("cart-count")[0].textContent;
+        for (let j = 0; j < document.getElementById("product-select").length; j++) {
+            if (document.getElementById("product-select").options[j].textContent == SIZES[i]) {
+                document.getElementsByClassName("add cart-btn clearfix")[0].disabled = false;
+                console.log("Found size " + SIZES[i]);
+                document.getElementById("product-select").selectedIndex = j;
+                document.getElementsByClassName("add cart-btn clearfix")[0].click();
+                while (document.getElementsByClassName("cart-count")[0].textContent == cartCount) {
+                    await delay(50);
+                }
+                break;
+            }
+        }
+
+    }
+	console.log("przechodze do koszyka");
+	setTimeout(function() {document.getElementsByClassName("cart-heading")[0].click();}, 1000);
+    //window.location.href = cart_url;
+    //return;
+}
     addToCart();
     console.log('po dodaniem');
 }

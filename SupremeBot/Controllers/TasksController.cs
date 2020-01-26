@@ -103,17 +103,17 @@ namespace SupremeBot.Controllers
                 items.Add(newItem);
             }
 
-            Card card = _context.Cards.FirstOrDefault(x => x.Id == cardId);
-            Address address = _context.Addresses.FirstOrDefault(x => x.Id == addressId);
-            Site site = _context.Sites.FirstOrDefault(x => x.Id == siteId);
+            //Card card = _context.Cards.FirstOrDefault(x => x.Id == cardId);
+            //Address address = _context.Addresses.FirstOrDefault(x => x.Id == addressId);
+            //Site site = _context.Sites.FirstOrDefault(x => x.Id == siteId);
 
             TaskItem task = new TaskItem()
             {
                 Name = taskName,
                 AnyColor = anyColor, Delay = delay, FillAdress = fillAddress,
                 OnlyWithEmptyBasket = onlyWithEmptyBasket, RefreshInterval = refreshInterval,
-                Items = items, UseTimer = useTimer, Card = card, Address = address,
-                Hour  = hour, Minute = minute, Second = second, Site = site.Id
+                /*Items = items,*/ UseTimer = useTimer, CardId = cardId, AddressId = addressId,
+                Hour  = hour, Minute = minute, Second = second, Site = siteId
             };
 
             _context.TaskItems.Add(task);
