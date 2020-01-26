@@ -12,7 +12,7 @@ namespace SupremeBot.Controllers
     {
         public IActionResult Index()
         {
-            return View("Index", "Task");
+            return RedirectToAction("Index", "Tasks");
         }
 
         public IActionResult About()

@@ -1,6 +1,7 @@
 // const category = "new";
 
 // const ITEM_NAME = "ZIP IT";
+// const COLOR = "GREY";
 
 // const BILLING_INFO = {
 //     "first name": "First",
@@ -17,7 +18,6 @@ let url = window.location.href;
 const main_url = "https://shop.palaceskateboards.com/";
 const cart_url = "https://shop.palaceskateboards.com/cart";
 const category_url = main_url + "collections/" + category;
-const COLOR = "GREY";
 const SIZES = ["Small", "Medium", "Large", "X-Large"];
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
