@@ -32,8 +32,8 @@ if (url == MAIN_URL)
         sessionStorage.setItem('refreshInterval', r.refreshInterval);
         sessionStorage.setItem('onlyWithEmptyBasket', r.onlyWithEmptyBasket);
         sessionStorage.setItem('anyColor', r.anyColor);
-        console.log(r);
-        //pickCategory(CATEGORY);
+
+        pickCategory(CATEGORY);
     });
     
 }
