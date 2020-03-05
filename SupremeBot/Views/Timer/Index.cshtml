@@ -31,7 +31,8 @@
             let second = document.getElementById("second").textContent;
             let distance = (hour - timer.hours - 1) * 3600 + (minute - timer.minutes) * 60 + (second - timer.seconds);
 
-            var x = setInterval(function() {
+            var x = setInterval(function () {
+                sessionStorage.setItem('taskId', '123');
               var hours = Math.floor((distance % (60 * 60 * 24)) / (60 * 60));
               var minutes = Math.floor((distance % (60 * 60)) / 60);
               var seconds = Math.floor((distance % 60));

@@ -19,7 +19,7 @@
   "content_scripts": [
       {
           "matches": ["https://www.supremenewyork.com/*", "<all_urls>"],
-          "js": ["test.js"]
+          "js": ["supremeBot.js"]
       }
   ],
   "permissions": [

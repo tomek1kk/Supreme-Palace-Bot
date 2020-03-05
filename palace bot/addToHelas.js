@@ -10,16 +10,8 @@ const CHECKOUT_URL = "https://helascaps.com/order";
 console.log(url);// + ', ' + url == MAIN_URL);
 if (url == MAIN_URL) {
 
-	fetch("https://localhost:44343/api/tasks/getcurrenttask")
-    .then(r => r.json())
-    .then(r => {
-		console.log(r);
-		sessionStorage.setItem('name', r.name);
-		
-		pickCategory(CATEGORY);
-	});
+    pickCategory(CATEGORY);
 
-	
 
 }
 
@@ -58,19 +50,12 @@ function pickCategory(cat) {
 
 
 function pickItem() {
-	sessionStorage.setItem("counter", "0");
-    let products = document.getElementsByClassName('middle');
-	let itemName = sessionStorage.getItem('name');
-	if (itemName == null)
-		itemName = "DELTA JACKET RED";
+    let products = document.getElementsByClassName('product-link');
+
     for (let i = 0; i < products.length - 1; i++) {
 
-		console.log(products[i]);
-		if (products[i].children[1].innerHTML.includes(itemName))
-		{
-			chrome.runtime.sendMessage({ redirect: products[i].children[0].href });
-			break;
-		}
+        chrome.runtime.sendMessage({ redirect: products[i].href });
+        break;
 
     }
 }
@@ -94,30 +79,13 @@ function goToCheckout() {
 
 
 function orderItem() {
+    var radioButton = document.getElementById("payment-option-2");
 
+    radioButton.checked = true;
 
-	if (sessionStorage.getItem("counter") == "0")
-	{
-		sessionStorage.setItem("counter", "1");
-		document.getElementsByName("confirm-addresses")[0].click();
+    fillCard();
 
-	}
-	if (sessionStorage.getItem("counter") == "1")
-	{
-		console.log("zaznaczam confirm delivery");
-		document.getElementsByName("confirmDeliveryOption")[0].click();
-		sessionStorage.setItem("counter", "2");
-	}
-	if (sessionStorage.getItem("counter") == "2")
-	{
-		//var radioButton = document.getElementById("payment-option-2");
-
-		//radioButton.checked = true;
-
-		//fillCard();
-
-		//clickSubmit();
-	}
+    clickSubmit();
 }
 
 function fillCard() {
