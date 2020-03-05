@@ -6,3 +6,4 @@
 -logowanie uzytkownikow
 -deploy na azure
 -baza na azure
+-walidacja
