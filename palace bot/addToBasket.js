@@ -6,7 +6,16 @@ const cart_url = "https://shop.palaceskateboards.com/cart";
 const ITEM_NAME = "ZIP IT";
 const COLOR = "GREY";
 const SIZES = ["Small", "Medium", "Large", "X-Large"];
-
+const BILLING_INFO = {
+        "first name": "First",
+        "last name": "Last",
+        "email": "email@test.com",
+        "tel": "123456789",
+        "address": "address test",
+        "city": "City",
+        "postal code": "00000",
+        "phone": "123456789"
+}
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -42,20 +51,10 @@ if (url == main_url)
     // fetch("https://localhost:44343/api/tasks/getcurrenttask").then(r => r.json()).then(r => console.log(r));
     fetch("https://localhost:44343/api/tasks/getcurrenttask")
     .then(r => r.json())
-    .then(r => 
-        {
-            //console.log(r.name);
-            sessionStorage.setItem('firstName', r.address.name);
-            sessionStorage.setItem('lastName', r.address.fullName);
-            sessionStorage.setItem('email', r.address.email);
-            sessionStorage.setItem('tel', r.address.phoneNumber);
-            sessionStorage.setItem('address', r.address.address1);
-            sessionStorage.setItem('city', r.address.city);
-            sessionStorage.setItem('postal code', r.address.postCode);
-            sessionStorage.setItem('phone', r.address.phoneNumber);
-            chrome.runtime.sendMessage({redirect: url + "collections/" + category});
-        });
-
+    .then(r => {
+		sessionStorage
+	});
+	//chrome.runtime.sendMessage({redirect: url + "collections/" + category});
 
 }
 
@@ -82,16 +81,6 @@ else if (url == cart_url)
 
 else if (url.includes("checkouts"))
 {
-    let BILLING_INFO = {
-        "first name": sessionStorage.getItem("firstName"),
-        "last name": sessionStorage.getItem("lastName"),
-        "email": sessionStorage.getItem("email"),
-        "tel": sessionStorage.getItem("tel"),
-        "address": sessionStorage.getItem("address"),
-        "city": sessionStorage.getItem("city"),
-        "postal code": sessionStorage.getItem("postal code"),
-        "phone": sessionStorage.getItem("phone"),
-    }
     let inputs = document.querySelectorAll('input:not([type=submit]):not([type=hidden])');
     console.log(inputs);
     if (inputs.length > 10) {

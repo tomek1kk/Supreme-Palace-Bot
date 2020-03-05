@@ -1,0 +1,9 @@
+-dodanie wielu itemow do taska
+-wiele itemow w bocie (js)
+-jak cos sold out
+-inne endpointy dla kazdego taska
+-uladnic strone
+-logowanie uzytkownikow
+-deploy na azure
+-baza na azure
+-walidacja

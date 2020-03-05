@@ -16,7 +16,7 @@
   "content_scripts": [
       {
           "matches": ["http://*/*", "https://*/*"],
-          "js": ["addToBasket.js"]
+          "js": ["addToBasket.js", "addToHelas.js"]
       }
   ],
   "permissions": [

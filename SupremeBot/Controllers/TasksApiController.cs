@@ -48,8 +48,14 @@ namespace SupremeBot.Controllers
 
             object taskObject = new
             {
+                name = task.Name,
                 address = _context.Addresses.Find(task.AddressId),
-                card = _context.Cards.Find(task.CardId)
+                card = _context.Cards.Find(task.CardId),
+                anyColor = task.AnyColor,
+                delay = task.Delay,
+                fillAddress = task.FillAdress,
+                onlyWithEmptyBasket = task.OnlyWithEmptyBasket,
+                refreshInterval = task.RefreshInterval
             };
             return taskObject;
         }
