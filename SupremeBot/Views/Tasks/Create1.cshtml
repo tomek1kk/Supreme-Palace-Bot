@@ -61,7 +61,6 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    @*<form id="itemForm">*@
                     <div class="text-danger"></div>
                     <div class="form-group">
                         <label class="control-label"></label>
@@ -73,26 +72,18 @@
                         <select class="form-control" asp-items="Html.GetEnumSelectList<Categories>()" id="categorySelect"></select>
                         <span class="text-danger"></span>
                     </div>
-                    <div class="form-group" id="namesDiv">
+                    <div class="form-group">
                         <label>Names</label>
-                        @*<select class="form-control" id="colorSelect1"></select>*@
-                        <input type="text" id="nameInput1" />
-                        <p id="nameButton1">Add</p>
+                        <input type="text" id="namesInput"></input>
                     </div>
-                    <div class="form-group" id="colorsDiv">
+                    <div class="form-group">
                         <label>Colors</label>
-                        @*<select class="form-control" id="colorSelect1"></select>*@
-                        <input type="text" id="colorInput1" />
-                        <p id="colorButton1">Add</p>
+                        <input type="text" id="colorsInput"></input>
                     </div>
                     <div class="form-group">
                         <label>Any color</label>
                         <input type="checkbox" id="anyColorCheck"></input>
                     </div>
-                    @*<div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-default" id="submitItem" />
-                </div>*@
-                    @*</form>*@
                 </div>
             </div>
 
@@ -112,24 +103,6 @@
 <script>
     var colors = [];
     var names = [];
-
-    //var addColorsToSelect = (id) => {
-    //    var colorSelect = document.getElementById("colorSelect" + id);
-
-    //    $.getJSON("/tasks/colors")
-    //        .done(function(data) {
-    //            console.log(data);
-    //            // On success, 'data' contains a list of products.
-    //            $.each(data,
-    //                function(key, item) {
-    //                    var option = document.createElement("option");
-    //                    option.value = data[key].id;
-    //                    option.text = data[key].name;
-    //                    colorSelect.add(option);
-    //                });
-
-    //        });
-    //};
 
     var fillAddressSelect = () => {
         var addressSelect = document.getElementById("addressSelect");
@@ -185,64 +158,7 @@
             });
     };
 
-    var colorButtonClick = (id) => {
-        var newColor = document.getElementById('colorInput' + id).value;
-        var colorDiv = document.getElementById('colorsDiv');
-
-        colors[id - 1] = newColor;
-
-        if (id < colors.length) {
-            return;
-        }
-
-        var newInput = document.createElement("input");
-        newInput.setAttribute("id", "colorInput" + (id + 1));
-        newInput.type = "text";
-        //var newButton = document.createElement()("button");
-        var newButton = document.createElement("p");
-        newButton.setAttribute("id", "colorButton" + (id + 1));
-        //newButton.onclick = () => colorButtonClick(id + 1);
-
-        newButton.onclick = () => colorButtonClick(id + 1);
-        newButton.textContent = "Add";
-
-        colorDiv.append(newInput);
-        colorDiv.append(newButton);
-
-        console.log(colors);
-        console.log(newButton);
-    };
-
-    var nameButtonClick = (id) => {
-        var newName = document.getElementById('nameInput' + id).value;
-        var colorDiv = document.getElementById('namesDiv');
-
-        names[id - 1] = newName;
-
-        if (id < names.length) {
-            return;
-        }
-
-        var newInput = document.createElement("input");
-        newInput.setAttribute("id", "nameInput" + (id + 1));
-        newInput.type = "text";
-        //var newButton = document.createElement()("button");
-        var newButton = document.createElement("p");
-        newButton.setAttribute("id", "nameButton" + (id + 1));
-        //newButton.onclick = () => colorButtonClick(id + 1);
-
-        newButton.onclick = () => nameButtonClick(id + 1);
-        newButton.textContent = "Add";
-
-        colorDiv.append(newInput);
-        colorDiv.append(newButton);
-
-        console.log(colors);
-        console.log(newButton);
-    };
-
     var timerCheckBoxClick = () => {
-        //var checkbox = document.getElementById('useTiem');
         var timeInput = document.getElementById('timeInput');
 
         if (timeInput.style.display == 'none')
@@ -254,8 +170,6 @@
     }
 
     $(document).ready(function() {
-
-        //addColorsToSelect(1);
         $('#colorButton1').on('click',
             function () {
                 colorButtonClick(1);
@@ -281,8 +195,8 @@
             var items = [];
             // DO ZROBIENIA DLA WIELU ITEMOW
             var item = {
-                colors: colors,
-                names: names,
+                colors: document.getElementById('namesInput').value,
+                names: document.getElementById('colorsInput').value,
                 anyColor: $('#anyColorCheck').val(),
                 size: $('#sizeSelect').val(),
                 category: $('#categorySelect').val()
@@ -324,7 +238,5 @@
         });
 
     });
-
-
 
 </script>

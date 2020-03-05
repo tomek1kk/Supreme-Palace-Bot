@@ -1,0 +1,307 @@
+﻿@model SupremeBot.Models.TaskItem
+
+@{
+    ViewData["Title"] = "CreateTaskItem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CreateTaskItem</h2>
+
+<h4>TaskItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form id="taskForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input type="text" value="0" class="form-control" id="nameInput" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Delay" class="control-label"></label>
+                <input type="number" value="0" class="form-control" id="delayInput" />
+                <span asp-validation-for="Delay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RefreshInterval" class="control-label"></label>
+                <input type="number" value="0" class="form-control" id="refreshIntervalInput" />
+                <span asp-validation-for="RefreshInterval" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Only with empty basket</label>
+                <input type="checkbox" id="onlyWithEmptyBasketInput" />
+            </div>
+            <div class="form-group">
+                <label>Any color</label>
+                <input type="checkbox" id="anyColorInput" />
+            </div>
+            <div class="form-group">
+                <label>Fill address</label>
+                <input type="checkbox" id="fillAddressInput" />
+            </div>
+            <div class="form-group">
+                <label>Use timer</label>
+                <input type="checkbox" id="useTimerInput" />
+                <input type="time" id="timeInput" style="display: none;" step="1" />
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <select class="form-control" id="addressSelect"></select>
+            </div>
+            <div class="form-group">
+                <label>Cards</label>
+                <select class="form-control" id="cardSelect"></select>
+            </div>
+            <div class="form-group">
+                <label>Site</label>
+                <select class="form-control" id="siteSelect"></select>
+            </div>
+            @*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*@
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <select class="form-control" asp-items="Html.GetEnumSelectList<Sizes>()" id="sizeSelect"></select>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <select class="form-control" asp-items="Html.GetEnumSelectList<Categories>()" id="categorySelect"></select>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Names</label>
+                        <input type="text" id="namesInput"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Colors</label>
+                        <input type="text" id="colorsInput"></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Any color</label>
+                        <input type="checkbox" id="anyColorCheck"></input>
+                    </div>
+                </div>
+            </div>
+
+            @*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*@
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    var colors = [];
+    var names = [];
+
+    var fillAddressSelect = () => {
+        var addressSelect = document.getElementById("addressSelect");
+
+        $.getJSON("/addresses/addresses")
+            .done(function(data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function(key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        addressSelect.add(option);
+                    });
+
+            });
+    };
+
+    var fillCardSelect = () => {
+        var cardSelect = document.getElementById("cardSelect");
+
+        $.getJSON("/cards/cards")
+            .done(function(data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function(key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        cardSelect.add(option);
+                    });
+
+            });
+    };
+
+    var fillSiteSelect = () => {
+        var cardSelect = document.getElementById("siteSelect");
+
+        $.getJSON("/sites/sites")
+            .done(function (data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function (key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        cardSelect.add(option);
+                    });
+
+            });
+    };
+
+    var timerCheckBoxClick = () => {
+        //var checkbox = document.getElementById('useTiem');
+        var timeInput = document.getElementById('timeInput');
+
+        if (timeInput.style.display == 'none')
+            timeInput.style.display = 'block';
+        else
+            timeInput.style.display = 'none';
+        console.log('timer checkbox clicked');
+
+    }
+
+    var getSizeValue = (size) => {
+        switch (size) {
+        case "Small":
+            return 0;
+        case "Medium":
+            return 1;
+        case "Large":
+            return 2;
+        case "XLarge":
+            return 3;
+        }
+    }
+
+    var getCategoryValue = (size) => {
+        switch (size) {
+        case "jackets":
+            return 0;
+        case "tops_sweaters":
+            return 1;
+        case "sweatshirts":
+            return 2;
+        case "pants":
+            return 3;
+        case "t_shirts":
+            return 4;
+        case "hats":
+            return 5;
+        case "bags":
+            return 6;
+        case "accessories":
+            return 7;
+        case "skate":
+            return 8;
+        }
+    }
+
+    var fillInputs = () => {
+        document.getElementById('nameInput').value = "@Model.Name";
+        document.getElementById('delayInput').value = "@Model.Delay";
+        document.getElementById('refreshIntervalInput').value = @Model.RefreshInterval;
+        document.getElementById('onlyWithEmptyBasketInput').checked = "@Model.OnlyWithEmptyBasket" == "True" ? true : false;
+        document.getElementById('anyColorInput').checked = "@Model.AnyColor" == "True" ? true : false;;
+        document.getElementById('fillAddressInput').checked = "@Model.FillAdress" == "True" ? true : false;;
+        document.getElementById('useTimerInput').checked = "@Model.UseTimer" == "True" ? true : false;;
+        //////////////////czas
+        //document.getElementById('anyColorInput').value = @Model.AnyColor;
+        //////////////////
+        document.getElementById('addressSelect').value = @Model.AddressId;
+        document.getElementById('cardSelect').value = @Model.CardId;
+        document.getElementById('sizeSelect').value = getSizeValue("@Model.Items[0].Size");
+        document.getElementById('categorySelect').value = getCategoryValue("@Model.Items[0].Category");
+        //document.getElementById('nameInput1').value = @Model.Items[0].Names[0];
+        document.getElementById('namesInput').value = "@Model.Items[0].Names";
+        document.getElementById('colorsInput').value = "@Model.Items[0].Colors";
+        document.getElementById('anyColorCheck').checked = "@Model.Items[0].AnyColor" == "True" ? true : false;;
+
+    }
+
+    $(document).ready(function() {
+
+        $('#colorButton1').on('click',
+            function () {
+                colorButtonClick(1);
+            });
+        $('#nameButton1').on('click',
+            function () {
+                nameButtonClick(1);
+            });
+
+        fillAddressSelect();
+        fillCardSelect();
+        fillSiteSelect();
+        document.getElementById('timeInput').value = '11:59:50';
+        fillInputs();
+
+        document.getElementById('useTimerInput').onclick = timerCheckBoxClick;
+
+
+        $("#taskForm").submit(function(event) {
+
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            var items = [];
+            // DO ZROBIENIA DLA WIELU ITEMOW
+            var item = {
+                id: @Model.Items[0].Id,
+                colors: document.getElementById('namesInput').value,
+                names: document.getElementById('colorsInput').value,
+                anyColor: $('#anyColorCheck').val(),
+                size: $('#sizeSelect').val(),
+                category: $('#categorySelect').val()
+        };
+            items.push(item);
+            var jason = {
+                id: @Model.Id,
+                name: document.getElementById('nameInput').value,
+                items: items,
+                anyColor: document.getElementById('anyColorInput').checked,
+                delay: $('#delayInput').val(),
+                refreshInterval: $('#refreshIntervalInput').val(),
+                useTimer: document.getElementById('useTimerInput').checked,
+                onlyWithEmptyBasket: document.getElementById('onlyWithEmptyBasketInput').checked,
+                fillAddress: document.getElementById('fillAddressInput').checked,
+                address: document.getElementById('addressSelect').value,
+                card: document.getElementById('cardSelect').value,
+                time: document.getElementById('timeInput').value,
+                site: document.getElementById('siteSelect').value
+            };
+
+            console.log(jason);
+
+            $.ajax({
+                    method: "PUT",
+                    url: '/tasks/edittask',
+                    data: JSON.stringify(jason),
+                    contentType: 'application/json'
+
+                })
+                .done(function (data) {
+                    console.log("done");
+                    window.location.href = '@Url.Action("Index", "Tasks")';
+                })
+                .fail(function (data) {
+                    console.log("fail");
+                    console.log(data);
+                });
+
+        });
+
+    });
+
+
+
+</script>
