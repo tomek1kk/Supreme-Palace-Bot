@@ -48,8 +48,14 @@ namespace SupremeBot.Controllers
             if (task == null)
                 return "not found";
 
-            //List<ItemDto> itemsToBuy = _context.Items.Where(item => item. == task.Id).ToList();
-            
+            var itemsToBuy = taskRepository.GetItemsOfTaskById(task.Id).Select(item => new
+            {
+                names = item.Names,
+                anyColor = item.AnyColor,
+                colors = item.Colors,
+                size = Enum.GetName(typeof(Sizes), item.Size),
+                category = Enum.GetName(typeof(Categories), item.Category)
+            });
 
             object taskObject = new
             {
@@ -60,7 +66,7 @@ namespace SupremeBot.Controllers
                 fillAddress = task.FillAdress,
                 onlyWithEmptyBasket = task.OnlyWithEmptyBasket,
                 refreshInterval = task.RefreshInterval,
-                items = taskRepository.GetItemsOfTaskById(task.Id)
+                items = itemsToBuy
         };
             return taskObject;
         }
