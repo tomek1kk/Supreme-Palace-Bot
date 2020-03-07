@@ -1,0 +1,148 @@
+﻿@model SupremeBot.Models.Dto.TaskItemDto
+
+@{
+    ViewData["Title"] = "CreateTask";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CreateTask</h2>
+
+<h4>TaskItemDto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateTaskFromDto" id="taskForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Delay" class="control-label"></label>
+                <input asp-for="Delay" class="form-control" />
+                <span asp-validation-for="Delay" class="text-danger"></span>
+            </div>
+            <div cl+
+                 ass="form-group">
+                <label asp-for="RefreshInterval" class="control-label"></label>
+                <input asp-for="RefreshInterval" class="form-control" />
+                <span asp-validation-for="RefreshInterval" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="OnlyWithEmptyBasket" /> @Html.DisplayNameFor(model => model.OnlyWithEmptyBasket)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="UseTimer" /> @Html.DisplayNameFor(model => model.UseTimer)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="FillAdress" /> @Html.DisplayNameFor(model => model.FillAdress)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <select asp-for="AddressId" class="form-control" id="addressSelect"></select>
+            </div>
+            <div class="form-group">
+                <label>Cards</label>
+                <select asp-for="CardId" class="form-control" id="cardSelect"></select>
+            </div>
+            @*<div class="form-group">
+                    <label asp-for="CardId" class="control-label"></label>
+                    <input asp-for="CardId" class="form-control" />
+                    <span asp-validation-for="CardId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AddressId" class="control-label"></label>
+                    <input asp-for="AddressId" class="form-control" />
+                    <span asp-validation-for="AddressId" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="Hour" class="control-label"></label>
+                <input asp-for="Hour" class="form-control" />
+                <span asp-validation-for="Hour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Minute" class="control-label"></label>
+                <input asp-for="Minute" class="form-control" />
+                <span asp-validation-for="Minute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Second" class="control-label"></label>
+                <input asp-for="Second" class="form-control" />
+                <span asp-validation-for="Second" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Site" class="control-label"></label>
+                <input asp-for="Site" class="form-control" />
+                <span asp-validation-for="Site" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    var fillAddressSelect = () => {
+        var addressSelect = document.getElementById("addressSelect");
+
+        $.getJSON("/addresses/addresses")
+            .done(function (data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function (key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        addressSelect.add(option);
+                    });
+
+            });
+    };
+
+    var fillCardSelect = () => {
+        var cardSelect = document.getElementById("cardSelect");
+
+        $.getJSON("/cards/cards")
+            .done(function (data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function (key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        cardSelect.add(option);
+                    });
+
+            });
+    };
+
+    $(document).ready(function () {
+
+        fillAddressSelect();
+        fillCardSelect();
+
+
+
+    });
+</script>
