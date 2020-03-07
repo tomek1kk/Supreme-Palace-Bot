@@ -11,5 +11,6 @@
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <WebStackScaffolding_DbContextTypeFullName>SupremeBot.Data.DataContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_LayoutPageFile>~/Views/Shared/_Layout.cshtml</WebStackScaffolding_LayoutPageFile>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
 </Project>
