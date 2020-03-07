@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SupremeBot.Models;
+using SupremeBot.Models.Dto;
 
 namespace SupremeBot.Data
 {
@@ -13,11 +14,9 @@ namespace SupremeBot.Data
 
         public DbSet<TaskItem> TaskItems { get; set; }
         public DbSet<Item> Items { get; set; }
-        public DbSet<ItemName> ItemNames { get; set; }
         public DbSet<Card> Cards { get; set; }
-        public DbSet<Color> Colors { get; set; }
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<Site> Sites { get; set; }
+        public DbSet<SupremeBot.Models.Dto.TaskItemDto> TaskItemDto { get; set; }
 
     }
 }
