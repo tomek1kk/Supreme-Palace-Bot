@@ -10,7 +10,7 @@ using SupremeBot.Data;
 namespace SupremeBot.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200306235731_mig1")]
+    [Migration("20200307083311_mig1")]
     partial class mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,8 +89,6 @@ namespace SupremeBot.Migrations
 
                     b.Property<int>("AddressId");
 
-                    b.Property<bool>("AnyColor");
-
                     b.Property<int>("CardId");
 
                     b.Property<int>("Delay");
@@ -148,8 +146,6 @@ namespace SupremeBot.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AddressId");
-
-                    b.Property<bool>("AnyColor");
 
                     b.Property<int>("CardId");
 

@@ -33,10 +33,6 @@
                 <input type="checkbox" id="onlyWithEmptyBasketInput" />
             </div>
             <div class="form-group">
-                <label>Any color</label>
-                <input type="checkbox" id="anyColorInput" />
-            </div>
-            <div class="form-group">
                 <label>Fill address</label>
                 <input type="checkbox" id="fillAddressInput" />
             </div>
@@ -52,10 +48,6 @@
             <div class="form-group">
                 <label>Cards</label>
                 <select class="form-control" id="cardSelect"></select>
-            </div>
-            <div class="form-group">
-                <label>Site</label>
-                <select class="form-control" id="siteSelect"></select>
             </div>
             @*aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa*@
 
@@ -80,10 +72,6 @@
                         <label>Colors</label>
                         <input type="text" id="colorsInput"></input>
                     </div>*@
-                    <div class="form-group">
-                        <label>Any color</label>
-                        <input type="checkbox" id="anyColorCheck"></input>
-                    </div>
                 </div>
             </div>
 
@@ -140,24 +128,6 @@
             });
     };
 
-    var fillSiteSelect = () => {
-        var cardSelect = document.getElementById("siteSelect");
-
-        $.getJSON("/sites/sites")
-            .done(function (data) {
-                console.log(data);
-                // On success, 'data' contains a list of products.
-                $.each(data,
-                    function (key, item) {
-                        var option = document.createElement("option");
-                        option.value = data[key].id;
-                        option.text = data[key].name;
-                        cardSelect.add(option);
-                    });
-
-            });
-    };
-
     var timerCheckBoxClick = () => {
         var timeInput = document.getElementById('timeInput');
 
@@ -181,7 +151,6 @@
 
         fillAddressSelect();
         fillCardSelect();
-        fillSiteSelect();
         document.getElementById('timeInput').value = '11:59:50';
 
         document.getElementById('useTimerInput').onclick = timerCheckBoxClick;
@@ -192,20 +161,9 @@
             /* stop form from submitting normally */
             event.preventDefault();
             console.log("prevented default");
-            //var items = [];
-            // DO ZROBIENIA DLA WIELU ITEMOW
-        //    var item = {
-        //        colors: document.getElementById('namesInput').value,
-        //        names: document.getElementById('colorsInput').value,
-        //        anyColor: $('#anyColorCheck').val(),
-        //        size: $('#sizeSelect').val(),
-        //        category: $('#categorySelect').val()
-        //};
-            //items.push(item);
             var jason = {
                 name: document.getElementById('nameInput').value,
                 //items: items,
-                anyColor: document.getElementById('anyColorInput').checked,
                 delay: $('#delayInput').val(),
                 refreshInterval: $('#refreshIntervalInput').val(),
                 useTimer: document.getElementById('useTimerInput').checked,

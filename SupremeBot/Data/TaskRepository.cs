@@ -24,13 +24,11 @@ namespace SupremeBot.Data
                 Name = dto.Name,
                 Delay = dto.Delay,
                 RefreshInterval = dto.RefreshInterval,
-                AnyColor = dto.AnyColor,
                 OnlyWithEmptyBasket = dto.OnlyWithEmptyBasket,
                 UseTimer = dto.UseTimer,
                 FillAdress = dto.FillAdress,
                 CardId = dto.CardId,
                 AddressId = dto.AddressId,
-                //Site = dto.Site,
                 Hour = dto.Hour,
                 Minute = dto.Minute,
                 Second = dto.Second
@@ -87,6 +85,23 @@ namespace SupremeBot.Data
             _context.SaveChanges();
 
             return item != null;
+        }
+
+        public bool DeleteTask(int id)
+        {
+            TaskItem taskToDelete = _context.TaskItems
+                .Include(t => t.Items)
+                .FirstOrDefault(t => t.Id == id);
+
+            foreach (var item in taskToDelete.Items)
+            {
+                _context.Items.Remove(item);
+            }
+
+            _context.TaskItems.Remove(taskToDelete);
+            _context.SaveChanges();
+
+            return taskToDelete != null;
         }
     }
 }

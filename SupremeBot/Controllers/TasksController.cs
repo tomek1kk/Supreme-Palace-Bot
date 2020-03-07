@@ -176,11 +176,15 @@ namespace SupremeBot.Controllers
         //    return RedirectToAction("Index");
         //}
 
-        public async Task<ActionResult> Delete(int id)
+        [Route("tasks/Delete/{id}")]
+        public IActionResult Delete([FromRoute] int id)
         {
-            _context.TaskItems.Remove(new TaskItem() { Id = id });
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            if(_taskRepository.DeleteTask(id))
+            {
+                return RedirectToAction("Index");
+            }
+
+            return NotFound();
         }
 
         public IActionResult Edit(int id)
@@ -254,7 +258,6 @@ namespace SupremeBot.Controllers
             }
 
             existingTask.Name = taskName;
-            existingTask.AnyColor = anyColor;
             existingTask.Delay = delay;
             existingTask.FillAdress = fillAddress;
             existingTask.OnlyWithEmptyBasket = onlyWithEmptyBasket;

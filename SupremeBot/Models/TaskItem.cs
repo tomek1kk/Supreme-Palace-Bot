@@ -16,7 +16,6 @@ namespace SupremeBot.Models
         public int RefreshInterval { get; set; }
         public bool OnlyWithEmptyBasket { get; set; }
         public bool UseTimer { get; set; }
-        public bool AnyColor { get; set; }
         public bool FillAdress { get; set; }
         public List<Item> Items { get; set; }
         public int CardId { get; set; }
@@ -26,6 +25,5 @@ namespace SupremeBot.Models
         public int Hour { get; set; }
         public int Minute { get; set; }
         public int Second { get; set; }
-        //public int Site { get; set; }
     }
 }

@@ -18,5 +18,7 @@ namespace SupremeBot.Data
         Item AddItemToTask(ItemDto dto);
 
         bool DeleteItemById(int id);
+
+        bool DeleteTask(int id);
     }
 }

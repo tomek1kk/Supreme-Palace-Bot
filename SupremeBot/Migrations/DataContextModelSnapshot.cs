@@ -87,8 +87,6 @@ namespace SupremeBot.Migrations
 
                     b.Property<int>("AddressId");
 
-                    b.Property<bool>("AnyColor");
-
                     b.Property<int>("CardId");
 
                     b.Property<int>("Delay");
@@ -146,8 +144,6 @@ namespace SupremeBot.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AddressId");
-
-                    b.Property<bool>("AnyColor");
 
                     b.Property<int>("CardId");
 
