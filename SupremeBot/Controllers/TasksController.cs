@@ -192,8 +192,6 @@ namespace SupremeBot.Controllers
             TaskItem model = _context.TaskItems
                 .Include(x => x.Card)
                 .Include(x => x.Address)
-                .Include(x => x.Items)
-                .Include(x => x.Items)
                 .FirstOrDefault(x => x.Id == id);
 
             return View(model);
@@ -201,13 +199,11 @@ namespace SupremeBot.Controllers
 
         [Route("tasks/EditTask")]
         [HttpPut]
-        public IActionResult EditTask([FromBody] JObject data)
+        public void EditTask([FromBody] JObject data)
         {
             int Id = data["id"].ToObject<int>();
 
             string taskName = data["name"].ToObject<string>();
-            //string taskName = "Task name";
-            bool anyColor = data["anyColor"].ToObject<bool>();
             bool useTimer = data["useTimer"].ToObject<bool>();
             bool onlyWithEmptyBasket = data["onlyWithEmptyBasket"].ToObject<bool>();
             bool fillAddress = data["fillAddress"].ToObject<bool>();
@@ -220,10 +216,6 @@ namespace SupremeBot.Controllers
             int hour = Int32.Parse(timeList[0]);
             int minute = Int32.Parse(timeList[1]);
             int second = Int32.Parse(timeList[2]);
-            List<JObject> itemsJson = data["items"].ToObject<List<JObject>>();
-            int siteId = data["site"].ToObject<int>();
-
-            var items = new List<Item>();
 
             TaskItem existingTask = _context.TaskItems.FirstOrDefault(x => x.Id == Id);
 
@@ -232,50 +224,21 @@ namespace SupremeBot.Controllers
                 RedirectToAction("Index");
             }
 
-            foreach (var item in itemsJson)
-            {
-                int itemId = item["id"].ToObject<int>();
-                Categories category = item["category"].ToObject<Categories>();
-                Sizes size = item["size"].ToObject<Sizes>();
-                var colors = item["colors"].ToObject<string>();
-                var names= item["names"].ToObject<string>();
-
-                Item existingItem = _context.Items.FirstOrDefault(x => x.Id == itemId);
-                if (existingItem == null)
-                {
-                    RedirectToAction("Index");
-                }
-
-                existingItem.Category = category;
-                existingItem.AnyColor = true;
-                existingItem.Colors = colors;
-                existingItem.Names = names;
-                existingItem.Size = size;
-
-                items.Add(existingItem);
-
-                _context.Items.Update(existingItem);
-            }
-
             existingTask.Name = taskName;
             existingTask.Delay = delay;
             existingTask.FillAdress = fillAddress;
             existingTask.OnlyWithEmptyBasket = onlyWithEmptyBasket;
             existingTask.RefreshInterval = refreshInterval;
-            existingTask.Items = items;
             existingTask.UseTimer = useTimer;
             existingTask.CardId = cardId;
             existingTask.AddressId = addressId;
             existingTask.Hour = hour;
             existingTask.Minute = minute;
             existingTask.Second = second;
-            //existingTask.Site = siteId;
 
             _context.TaskItems.Update(existingTask);
 
             _context.SaveChanges();
-
-            return RedirectToAction("Index");
         }
 
         public IActionResult Start(int id)
