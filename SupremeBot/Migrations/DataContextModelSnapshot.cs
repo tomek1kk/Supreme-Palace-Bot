@@ -79,17 +79,39 @@ namespace SupremeBot.Migrations
                     b.ToTable("Cards");
                 });
 
-            modelBuilder.Entity("SupremeBot.Models.Color", b =>
+            modelBuilder.Entity("SupremeBot.Models.Dto.TaskItemDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AddressId");
+
+                    b.Property<bool>("AnyColor");
+
+                    b.Property<int>("CardId");
+
+                    b.Property<int>("Delay");
+
+                    b.Property<bool>("FillAdress");
+
+                    b.Property<int>("Hour");
+
+                    b.Property<int>("Minute");
+
                     b.Property<string>("Name");
+
+                    b.Property<bool>("OnlyWithEmptyBasket");
+
+                    b.Property<int>("RefreshInterval");
+
+                    b.Property<int>("Second");
+
+                    b.Property<bool>("UseTimer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colors");
+                    b.ToTable("TaskItemDto");
                 });
 
             modelBuilder.Entity("SupremeBot.Models.Item", b =>
@@ -115,36 +137,6 @@ namespace SupremeBot.Migrations
                     b.HasIndex("TaskItemId");
 
                     b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("SupremeBot.Models.ItemName", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ItemNames");
-                });
-
-            modelBuilder.Entity("SupremeBot.Models.Site", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("SiteUrl")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sites");
                 });
 
             modelBuilder.Entity("SupremeBot.Models.TaskItem", b =>
@@ -174,8 +166,6 @@ namespace SupremeBot.Migrations
                     b.Property<int>("RefreshInterval");
 
                     b.Property<int>("Second");
-
-                    b.Property<int>("Site");
 
                     b.Property<bool>("UseTimer");
 

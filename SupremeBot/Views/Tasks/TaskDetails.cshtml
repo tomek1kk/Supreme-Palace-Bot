@@ -1,0 +1,384 @@
+﻿@model SupremeBot.Models.TaskItem
+
+@{
+    ViewData["Title"] = "TaskDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>TaskDetails</h2>
+
+<div>
+    <h4>TaskItem</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delay)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Delay)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RefreshInterval)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RefreshInterval)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OnlyWithEmptyBasket)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OnlyWithEmptyBasket)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UseTimer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UseTimer)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AnyColor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AnyColor)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FillAdress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FillAdress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Card)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Card.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Hour)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Hour)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Minute)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Minute)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Second)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Second)
+        </dd>
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Site)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Site)
+        </dd>*@
+    </dl>
+    <table class="table" id="table">
+        <thead>
+        <tr>
+            <th>Names</th>
+            <th>Any Color</th>
+            <th>Colors</th>
+            <th>Category</th>
+            <th>Size</th>
+            <th>Add</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        @*@if(Model.Items != null)
+                {
+                    foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>item.Name</td>
+                            <td></td>
+                            <td>Colors</td>
+                            <td>Category</td>
+                            <td>Size</td>
+                            <td>Add</td>
+                            <td>Delete</td>
+                        </tr>
+                    }
+                }*@
+        </tbody>
+    </table>
+</div>
+<div>
+    <button id="addRowButton">Next Item</button>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+
+    var insertNewRow = () => {
+        var table = document.getElementById("table");
+        var row = table.insertRow();
+
+        var nameCell = row.insertCell();
+        var anyColorCell = row.insertCell();
+        var colorsCell = row.insertCell();
+        var categoryCell = row.insertCell();
+        var sizeCell = row.insertCell();
+        var addCell = row.insertCell();
+        var deleteCell = row.insertCell();
+        var idCell = row.insertCell();
+
+        var nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameCell.appendChild(nameInput);
+
+        var anyColorInput = document.createElement("input");
+        anyColorInput.type = "checkbox";
+        anyColorCell.appendChild(anyColorInput);
+
+        var colorsInput = document.createElement("input");
+        nameInput.type = "text";
+        colorsCell.appendChild(colorsInput);
+
+        var categorySelect = document.createElement("select");
+        fillCategoryOptions(categorySelect);
+        categoryCell.appendChild(categorySelect);
+
+        var sizeSelect = document.createElement("select");
+        fillSizeOptions(sizeSelect);
+        sizeCell.appendChild(sizeSelect);
+
+        var addButton = document.createElement("button");
+        addButton.innerHTML = "Add";
+        addButton.onclick = () => {
+            addItem(row.rowIndex);
+        }
+        addCell.appendChild(addButton);
+
+        var deleteButton = document.createElement("button");
+        deleteButton.innerHTML = "Delete";
+        deleteButton.disabled = true;
+        deleteButton.onclick = () => {
+            deleteItem(item.id, row.rowIndex);
+        }
+        deleteCell.appendChild(deleteButton);
+
+        idCell.innerHTML = "-1";
+    }
+
+    var addItem = (rowIndex) => {
+        var table = document.getElementById("table");
+        //console.log(table.rows[rowIndex].cells[3].children[0]);
+        var json = {
+            names: table.rows[rowIndex].cells[0].children[0].value,
+            anyColor: table.rows[rowIndex].cells[1].children[0].checked,
+            colors: table.rows[rowIndex].cells[2].children[0].value,
+            category: table.rows[rowIndex].cells[3].children[0].selectedIndex,
+            size: table.rows[rowIndex].cells[4].children[0].selectedIndex,
+            taskId: @Model.Id
+        };
+
+        console.log(json);
+
+        $.ajax({
+                method: "POST",
+                url: '/tasks/additemtotask',
+                data: JSON.stringify(json),
+                contentType: 'application/json'
+
+            })
+            .done(function (data) {
+                console.log("done");
+                console.log(data);
+                table.rows[rowIndex].cells[6].children[0].disabled = false;
+                table.rows[rowIndex].cells[7].innerHTML = data.id;
+            })
+            .fail(function (data) {
+                console.log("fail");
+                console.log(data);
+            });
+    }
+
+    var deleteItem = (itemId, rowIndex) => {
+
+        $.ajax({
+                method: "DELETE",
+                url: '/tasks/deleteitem',
+                data: JSON.stringify(itemId),
+                contentType: 'application/json'
+
+            })
+            .done(function (data) {
+                console.log("done");
+                document.getElementById("table").deleteRow(rowIndex);
+            })
+            .fail(function (data) {
+                console.log("fail");
+                console.log(data);
+            });
+    }
+
+    var fillSizeOptions = (select) => {
+        var option = document.createElement("option");
+        option.text = "Small";
+        option.Value = 0;
+        select.add(option);
+
+        var option1 = document.createElement("option");
+        option1.text = "Medium";
+        option1.Value = 1;
+        select.add(option1);
+
+        var option2 = document.createElement("option");
+        option2.text = "Large";
+        option2.Value = 2;
+        select.add(option2);
+
+        var option3 = document.createElement("option");
+        option3.text = "XLarge";
+        option3.Value = 3;
+        select.add(option3);
+    }
+
+    var fillCategoryOptions = (select) => {
+        var option = document.createElement("option");
+        option.text = "jackets";
+        option.Value = 0;
+        select.add(option);
+
+        var option1 = document.createElement("option");
+        option1.text = "tops_sweaters";
+        option1.Value = 1;
+        select.add(option1);
+
+        var option2 = document.createElement("option");
+        option2.text = "sweatshirts";
+        option2.Value = 2;
+        select.add(option2);
+
+        var option3 = document.createElement("option");
+        option3.text = "pants";
+        option3.Value = 3;
+        select.add(option3);
+
+        var option4 = document.createElement("option");
+        option4.text = "t_shirts";
+        option4.Value = 4;
+        select.add(option4);
+
+        var option5 = document.createElement("option");
+        option5.text = "hats";
+        option5.Value = 5;
+        select.add(option5);
+
+        var option6 = document.createElement("option");
+        option6.text = "bags";
+        option6.Value = 6;
+        select.add(option6);
+
+        var option7 = document.createElement("option");
+        option7.text = "accessories";
+        option7.Value = 7;
+        select.add(option7);
+
+        var option8 = document.createElement("option");
+        option8.text = "skate";
+        option8.Value = 8;
+        select.add(option8);
+    }
+
+    var appendData = (item) => {
+        var table = document.getElementById("table");
+        var row = table.insertRow();
+
+        var nameCell = row.insertCell();
+        var anyColorCell = row.insertCell();
+        var colorsCell = row.insertCell();
+        var categoryCell = row.insertCell();
+        var sizeCell = row.insertCell();
+        var addCell = row.insertCell();
+        var deleteCell = row.insertCell();
+        var idCell = row.insertCell();
+
+        var nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.value = item.names;
+        nameCell.appendChild(nameInput);
+
+        var anyColorInput = document.createElement("input");
+        anyColorInput.type = "checkbox";
+        anyColorInput.checked = item.anyColor;
+        console.log("any color: " + item.anyColor);
+        anyColorCell.appendChild(anyColorInput);
+
+        var colorsInput = document.createElement("input");
+        colorsInput.type = "text";
+        colorsInput.value = item.colors;
+        colorsCell.appendChild(colorsInput);
+
+        categorySelect = document.createElement("select");
+        fillCategoryOptions(categorySelect);
+        categorySelect.selectedIndex = item.category;
+        categoryCell.appendChild(categorySelect);
+
+        sizeSelect = document.createElement("select");
+        fillSizeOptions(sizeSelect);
+        sizeSelect.selectedIndex = item.size;
+        sizeCell.appendChild(sizeSelect);
+
+        var addButton = document.createElement("button");
+        addButton.innerHTML = "Add";
+        addButton.disabled = true;
+        addButton.onclick = () => {
+            addItem(row.rowIndex);
+        }
+        addCell.appendChild(addButton);
+
+        var deleteButton = document.createElement("button");
+        deleteButton.innerHTML = "Delete";
+        deleteButton.onclick = () => {
+            deleteItem(item.id, row.rowIndex);
+        }
+        deleteCell.appendChild(deleteButton);
+
+        idCell.innerHTML = item.id;
+    }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+
+        $.getJSON("/tasks/ItemsOfTask/" + @Model.Id)
+            .done(function(data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function(key, item) {
+                        appendData(item);
+                    });
+                insertNewRow();
+
+            });
+
+        document.getElementById("addRowButton").onclick = () => insertNewRow();
+        //insertNewRow();
+
+
+    });
+
+</script>

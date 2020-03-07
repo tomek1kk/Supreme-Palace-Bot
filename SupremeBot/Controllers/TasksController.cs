@@ -7,16 +7,19 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using SupremeBot.Data;
 using SupremeBot.Models;
+using SupremeBot.Models.Dto;
 
 namespace SupremeBot.Controllers
 {
     public class TasksController : Controller
     {
         private readonly DataContext _context;
+        private ITaskRepository _taskRepository;
 
-        public TasksController(DataContext context)
+        public TasksController(DataContext context, ITaskRepository repo)
         {
             _context = context;
+            _taskRepository = repo;
         }
 
         [Route("Tasks/Index")]
@@ -25,6 +28,21 @@ namespace SupremeBot.Controllers
         {
             var items = _context.TaskItems.ToList();
             return View(items);
+        }
+
+        [Route("Tasks/CreateTask")]
+        [HttpGet]
+        public IActionResult CreateTask()
+        {
+            return View("CreateTask");
+        }
+
+        [HttpGet]
+        [Route("Tasks/CreateTaskFromDto")]
+        public IActionResult CreateTaskFromDto([FromBody]object dto)
+        {
+
+            return RedirectToAction("Index");
         }
 
         [Route("Tasks/Create1")]
@@ -43,77 +61,120 @@ namespace SupremeBot.Controllers
             return RedirectToAction("Index");
         }
 
-        [Route("Tasks/Colors")]
-        [HttpGet]
-        public IEnumerable<Color> Colors()
-        {
-            return _context.Colors.ToList();
-        }
-
         [Route("tasks/CreateTask")]
         [HttpPost]
-        public IActionResult CreateTask([FromBody] JObject data)
+        public TaskItem CreateTask([FromBody] TaskItemDto data)
         {
-            string taskName = data["name"].ToObject<string>();
-            //string taskName = "Task name";
-            bool anyColor = data["anyColor"].ToObject<bool>();
-            bool useTimer = data["useTimer"].ToObject<bool>();
-            bool onlyWithEmptyBasket = data["onlyWithEmptyBasket"].ToObject<bool>();
-            bool fillAddress = data["fillAddress"].ToObject<bool>();
-            int delay = data["delay"].ToObject<int>();
-            int refreshInterval = data["refreshInterval"].ToObject<int>();
-            int cardId = data["card"].ToObject<int>();
-            int addressId = data["address"].ToObject<int>();
-            string timeString = data["time"].ToObject<string>();
-            var timeList = timeString.Split(':');
-            int hour = Int32.Parse(timeList[0]);
-            int minute = Int32.Parse(timeList[1]);
-            int second = Int32.Parse(timeList[2]);
-            List<JObject> itemsJson = data["items"].ToObject<List<JObject>>();
-            int siteId = data["site"].ToObject<int>();
+            TaskItem taskItem = _taskRepository.CreateTaskFromDto(data);
 
-            var items = new List<Item>();
 
-            foreach (var item in itemsJson)
-            {
-                Categories category = item["category"].ToObject<Categories>();
-                Sizes size = item["size"].ToObject<Sizes>();
-                var colors = item["colors"].ToObject<string>();
-                var names = item["names"].ToObject<string>();
-
-                var newItem = new Item()
-                {
-                    Category = category, AnyColor = true, Colors = colors,
-                    Names = names, Size = size//, TaskId = task.Id
-                };
-
-                items.Add(newItem);
-            }
-
-            TaskItem task = new TaskItem()
-            {
-                Name = taskName,
-                AnyColor = anyColor,
-                Delay = delay,
-                FillAdress = fillAddress,
-                OnlyWithEmptyBasket = onlyWithEmptyBasket,
-                RefreshInterval = refreshInterval,
-                Items = items,
-                UseTimer = useTimer,
-                CardId = cardId,
-                AddressId = addressId,
-                Hour = hour,
-                Minute = minute,
-                Second = second,
-                Site = siteId
-            };
-
-            _context.TaskItems.Add(task);
-
-            _context.SaveChanges();
-
-            return RedirectToAction("Index");
+            //return RedirectToAction("TaskDetails", new {id = taskItem.Id});'
+            return taskItem;
         }
+
+        [Route("tasks/TaskDetails/{id}")]
+        [HttpGet]
+        public IActionResult TaskDetails([FromRoute] int id)
+        {
+            TaskItem model = _taskRepository.GetTaskById(id);
+
+            if (model != null)
+            {
+                return View("TaskDetails", model);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [Route("tasks/ItemsOfTask/{id}")]
+        [HttpGet]
+        public IEnumerable<Item> ItemsOfTask(int id)
+        {
+            return _taskRepository.GetItemsOfTaskById(id);
+        }
+
+        [Route("tasks/AddItemToTask")]
+        [HttpPost]
+        public Item AddItemToTask([FromBody]ItemDto dto)
+        {
+            return _taskRepository.AddItemToTask(dto);
+        }
+
+        [Route("tasks/DeleteItem")]
+        [HttpDelete]
+        public IActionResult DeleteItem([FromBody]int id)
+        {
+            _taskRepository.DeleteItemById(id);
+
+            return Ok();
+        }
+
+        //[Route("tasks/CreateTask")]
+        //[HttpPost]
+        //public IActionResult CreateTask([FromBody] JObject data)
+        //{
+        //    string taskName = data["name"].ToObject<string>();
+        //    //string taskName = "Task name";
+        //    bool anyColor = data["anyColor"].ToObject<bool>();
+        //    bool useTimer = data["useTimer"].ToObject<bool>();
+        //    bool onlyWithEmptyBasket = data["onlyWithEmptyBasket"].ToObject<bool>();
+        //    bool fillAddress = data["fillAddress"].ToObject<bool>();
+        //    int delay = data["delay"].ToObject<int>();
+        //    int refreshInterval = data["refreshInterval"].ToObject<int>();
+        //    int cardId = data["card"].ToObject<int>();
+        //    int addressId = data["address"].ToObject<int>();
+        //    string timeString = data["time"].ToObject<string>();
+        //    var timeList = timeString.Split(':');
+        //    int hour = Int32.Parse(timeList[0]);
+        //    int minute = Int32.Parse(timeList[1]);
+        //    int second = Int32.Parse(timeList[2]);
+        //    List<JObject> itemsJson = data["items"].ToObject<List<JObject>>();
+        //    int siteId = data["site"].ToObject<int>();
+
+        //    var items = new List<Item>();
+
+        //    foreach (var item in itemsJson)
+        //    {
+        //        Categories category = item["category"].ToObject<Categories>();
+        //        Sizes size = item["size"].ToObject<Sizes>();
+        //        var colors = item["colors"].ToObject<string>();
+        //        var names = item["names"].ToObject<string>();
+
+        //        var newItem = new Item()
+        //        {
+        //            Category = category, AnyColor = true, Colors = colors,
+        //            Names = names, Size = size//, TaskId = task.Id
+        //        };
+
+        //        items.Add(newItem);
+        //    }
+
+        //    TaskItem task = new TaskItem()
+        //    {
+        //        Name = taskName,
+        //        AnyColor = anyColor,
+        //        Delay = delay,
+        //        FillAdress = fillAddress,
+        //        OnlyWithEmptyBasket = onlyWithEmptyBasket,
+        //        RefreshInterval = refreshInterval,
+        //        Items = items,
+        //        UseTimer = useTimer,
+        //        CardId = cardId,
+        //        AddressId = addressId,
+        //        Hour = hour,
+        //        Minute = minute,
+        //        Second = second,
+        //        Site = siteId
+        //    };
+
+        //    _context.TaskItems.Add(task);
+
+        //    _context.SaveChanges();
+
+        //    return RedirectToAction("Index");
+        //}
 
         public async Task<ActionResult> Delete(int id)
         {
@@ -205,7 +266,7 @@ namespace SupremeBot.Controllers
             existingTask.Hour = hour;
             existingTask.Minute = minute;
             existingTask.Second = second;
-            existingTask.Site = siteId;
+            //existingTask.Site = siteId;
 
             _context.TaskItems.Update(existingTask);
 
