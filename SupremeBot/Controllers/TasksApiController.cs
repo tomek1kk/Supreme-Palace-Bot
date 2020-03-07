@@ -16,11 +16,13 @@ namespace SupremeBot.Controllers
     public class TasksApiController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly ITaskRepository taskRepository;
         private static int currentId;
 
-        public TasksApiController(DataContext context)
+        public TasksApiController(DataContext context, ITaskRepository taskRepository)
         {
             _context = context;
+            this.taskRepository = taskRepository;
         }
 
         public static void SetCurrentId(int id)
@@ -46,6 +48,9 @@ namespace SupremeBot.Controllers
             if (task == null)
                 return "not found";
 
+            //List<ItemDto> itemsToBuy = _context.Items.Where(item => item. == task.Id).ToList();
+            
+
             object taskObject = new
             {
                 name = task.Name,
@@ -54,8 +59,9 @@ namespace SupremeBot.Controllers
                 delay = task.Delay,
                 fillAddress = task.FillAdress,
                 onlyWithEmptyBasket = task.OnlyWithEmptyBasket,
-                refreshInterval = task.RefreshInterval
-            };
+                refreshInterval = task.RefreshInterval,
+                items = taskRepository.GetItemsOfTaskById(task.Id)
+        };
             return taskObject;
         }
     }

@@ -125,6 +125,7 @@ namespace SupremeBot.Controllers
         //    int refreshInterval = data["refreshInterval"].ToObject<int>();
         //    int cardId = data["card"].ToObject<int>();
         //    int addressId = data["address"].ToObject<int>();
+        //    int addressId = data["address"].ToObject<int>();
         //    string timeString = data["time"].ToObject<string>();
         //    var timeList = timeString.Split(':');
         //    int hour = Int32.Parse(timeList[0]);
