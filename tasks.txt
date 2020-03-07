@@ -1,5 +1,4 @@
--dodanie wielu itemow do taska
--wiele itemow w bocie (js)
+-testowanie bota w roznych konfiguracjach
 -jak cos sold out
 -inne endpointy dla kazdego taska
 -uladnic strone
