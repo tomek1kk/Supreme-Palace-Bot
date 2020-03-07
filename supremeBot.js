@@ -14,7 +14,7 @@ if (url == MAIN_URL)
     .then(r => {
         if (r.fillAddress == true) {
             sessionStorage.setItem('fillAddress', "true")
-            sessionStorage.setItem('fullName', r.address.name + " " + r.address.fullName);
+            sessionStorage.setItem('fullName', r.address.fullName);
             sessionStorage.setItem('email', r.address.email);
             sessionStorage.setItem('phoneNumber', r.address.phoneNumber);
             sessionStorage.setItem('address1', r.address.address1);
