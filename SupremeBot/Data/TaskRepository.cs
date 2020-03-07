@@ -103,5 +103,32 @@ namespace SupremeBot.Data
 
             return taskToDelete != null;
         }
+
+        public bool EditTask(TaskItem taskItem)
+        {
+            TaskItem existingTaskItem = _context.TaskItems.FirstOrDefault(t => t.Id == taskItem.Id);
+
+            if (existingTaskItem == null)
+            {
+                return false;
+            }
+
+            existingTaskItem.Name = taskItem.Name;
+            existingTaskItem.AddressId = taskItem.AddressId;
+            existingTaskItem.FillAdress = taskItem.FillAdress;
+            existingTaskItem.Hour = taskItem.Hour;
+            existingTaskItem.Minute = taskItem.Minute;
+            existingTaskItem.OnlyWithEmptyBasket = taskItem.OnlyWithEmptyBasket;
+            existingTaskItem.Second = taskItem.Second;
+            existingTaskItem.UseTimer = taskItem.UseTimer;
+            existingTaskItem.CardId = taskItem.CardId;
+            existingTaskItem.RefreshInterval = taskItem.RefreshInterval;
+            existingTaskItem.Delay = taskItem.Delay;
+
+            _context.TaskItems.Update(existingTaskItem);
+            _context.SaveChanges();
+
+            return true;
+        }
     }
 }

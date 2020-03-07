@@ -20,5 +20,7 @@ namespace SupremeBot.Data
         bool DeleteItemById(int id);
 
         bool DeleteTask(int id);
+
+        bool EditTask(TaskItem taskItem);
     }
 }

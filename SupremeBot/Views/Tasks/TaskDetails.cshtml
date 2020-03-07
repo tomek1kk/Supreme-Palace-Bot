@@ -10,80 +10,77 @@
 <div>
     <h4>TaskItem</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Delay)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Delay)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.RefreshInterval)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RefreshInterval)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.OnlyWithEmptyBasket)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OnlyWithEmptyBasket)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UseTimer)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UseTimer)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FillAdress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FillAdress)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Card)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Card.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Hour)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Hour)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Minute)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Minute)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Second)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Second)
-        </dd>
-        @*<dt>
-            @Html.DisplayNameFor(model => model.Site)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Site)
-        </dd>*@
-    </dl>
+    <form id="form">
+        <dl class="dl-horizontal">
+            <dt>
+                Name
+            </dt>
+            <dd>
+                <input type="text" id="taskNameInput" value="@Model.Name"/>
+            </dd>
+            <dt>
+                Delay
+            </dt>
+            <dd>
+                <input type="number" id="taskDelayInput" value="@Model.Delay" />
+            </dd>
+            <dt>
+                Refresh Interval
+            </dt>
+            <dd>
+                <input type="number" id="taskRefreshIntervalInput" value="@Model.RefreshInterval" />
+            </dd>
+            <dt>
+                Only With Empty Basket
+            </dt>
+            <dd>
+                <input type="checkbox" id="taskOnlyWithEmptyBasketInput" checked="@Model.OnlyWithEmptyBasket" />
+            </dd>
+            <dt>
+                Use Timer
+            </dt>
+            <dd>
+                <input type="checkbox" id="taskUseTimerInput" checked="@Model.UseTimer" />
+            </dd>
+            <dt>
+                Hour
+            </dt>
+            <dd>
+                <input type="number" id="taskHourInput" value="@Model.Hour" />
+            </dd>
+            <dt>
+                Minute
+            </dt>
+            <dd>
+                <input type="number" id="taskMinuteInput" value="@Model.Minute" />
+            </dd>
+            <dt>
+                Second
+            </dt>
+            <dd>
+                <input type="number" id="taskSecondInput" value="@Model.Second" />
+            </dd>
+            <dt>
+                Fill Address
+            </dt>
+            <dd>
+                <input type="checkbox" id="taskFillAddressInput" checked="@Model.FillAdress" />
+            </dd>
+            <dt>
+                Card
+            </dt>
+            <dd>
+                <select id="cardSelect"></select>
+            </dd>
+            <dt>
+                Address
+            </dt>
+            <dd>
+                <select id="addressSelect"></select>
+            </dd>
+        </dl>
+        <input type="submit" value="Edit Task" id="editTaskSubmit"/>
+    </form>
     <table class="table" id="table">
         <thead>
         <tr>
@@ -125,6 +122,45 @@
 
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
 <script>
+    var fillAddressSelect = () => {
+        var addressSelect = document.getElementById("addressSelect");
+
+        $.getJSON("/addresses/addresses")
+            .done(function(data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function(key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        addressSelect.add(option);
+                    });
+
+            });
+
+        addressSelect.selectedIndex = @Model.AddressId;
+    };
+
+    var fillCardSelect = () => {
+        var cardSelect = document.getElementById("cardSelect");
+
+        $.getJSON("/cards/cards")
+            .done(function(data) {
+                console.log(data);
+                // On success, 'data' contains a list of products.
+                $.each(data,
+                    function(key, item) {
+                        var option = document.createElement("option");
+                        option.value = data[key].id;
+                        option.text = data[key].name;
+                        cardSelect.add(option);
+                    });
+
+            });
+
+        addressSelect.selectedIndex = @Model.CardId;
+    };
 
     var insertNewRow = () => {
         var table = document.getElementById("table");
@@ -170,7 +206,7 @@
         deleteButton.innerHTML = "Delete";
         deleteButton.disabled = true;
         deleteButton.onclick = () => {
-            deleteItem(item.id, row.rowIndex);
+            deleteItem(row.rowIndex);
         }
         deleteCell.appendChild(deleteButton);
 
@@ -199,8 +235,7 @@
 
             })
             .done(function (data) {
-                console.log("done");
-                console.log(data);
+                table.rows[rowIndex].cells[5].children[0].disabled = true;
                 table.rows[rowIndex].cells[6].children[0].disabled = false;
                 table.rows[rowIndex].cells[7].innerHTML = data.id;
             })
@@ -210,7 +245,9 @@
             });
     }
 
-    var deleteItem = (itemId, rowIndex) => {
+    var deleteItem = (rowIndex) => {
+        var table = document.getElementById("table");
+        var itemId = table.rows[rowIndex].cells[7].innerHTML;
 
         $.ajax({
                 method: "DELETE",
@@ -221,7 +258,7 @@
             })
             .done(function (data) {
                 console.log("done");
-                document.getElementById("table").deleteRow(rowIndex);
+                table.deleteRow(rowIndex);
             })
             .fail(function (data) {
                 console.log("fail");
@@ -348,7 +385,7 @@
         var deleteButton = document.createElement("button");
         deleteButton.innerHTML = "Delete";
         deleteButton.onclick = () => {
-            deleteItem(item.id, row.rowIndex);
+            deleteItem(row.rowIndex);
         }
         deleteCell.appendChild(deleteButton);
 
@@ -356,6 +393,9 @@
     }
 
     document.addEventListener("DOMContentLoaded", function (event) {
+
+        fillAddressSelect();
+        fillCardSelect();
 
         $.getJSON("/tasks/ItemsOfTask/" + @Model.Id)
             .done(function(data) {
@@ -370,6 +410,45 @@
             });
 
         document.getElementById("addRowButton").onclick = () => insertNewRow();
+
+        $("#form").submit(function(event) {
+            console.log("clicked");
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            var jason = {
+                id: @Model.Id,
+                name: document.getElementById('taskNameInput').value,
+                delay: document.getElementById('taskDelayInput').value,
+                refreshInterval: document.getElementById('taskRefreshIntervalInput').value,
+                useTimer: document.getElementById('taskUseTimerInput').checked,
+                onlyWithEmptyBasket: document.getElementById('taskOnlyWithEmptyBasketInput').checked,
+                fillAddress: document.getElementById('taskFillAddressInput').checked,
+                addressId: document.getElementById('addressSelect').value,
+                cardId: document.getElementById('cardSelect').value,
+                //time: document.getElementById('timeInput').value,
+                hour: document.getElementById('taskHourInput').value,
+                minute: document.getElementById('taskMinuteInput').value,
+                second: document.getElementById('taskSecondInput').value,
+            };
+
+            console.log("edit task jason: ");
+            console.log(jason);
+
+            $.ajax({
+                method: "PUT",
+                url: '/tasks/edittask',
+                data: JSON.stringify(jason),
+                contentType: 'application/json'
+
+            })
+                .fail((data) => {
+                    console.log("fail");
+                    console.log(data);
+                });
+        });
+
+
         //insertNewRow();
 
 

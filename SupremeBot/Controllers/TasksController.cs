@@ -57,7 +57,6 @@ namespace SupremeBot.Controllers
             _context.TaskItems.Add(task);
             _context.SaveChanges();
 
-            //return RedirectToAction("Create2");
             return RedirectToAction("Index");
         }
 
@@ -67,8 +66,6 @@ namespace SupremeBot.Controllers
         {
             TaskItem taskItem = _taskRepository.CreateTaskFromDto(data);
 
-
-            //return RedirectToAction("TaskDetails", new {id = taskItem.Id});'
             return taskItem;
         }
 
@@ -111,72 +108,6 @@ namespace SupremeBot.Controllers
             return Ok();
         }
 
-        //[Route("tasks/CreateTask")]
-        //[HttpPost]
-        //public IActionResult CreateTask([FromBody] JObject data)
-        //{
-        //    string taskName = data["name"].ToObject<string>();
-        //    //string taskName = "Task name";
-        //    bool anyColor = data["anyColor"].ToObject<bool>();
-        //    bool useTimer = data["useTimer"].ToObject<bool>();
-        //    bool onlyWithEmptyBasket = data["onlyWithEmptyBasket"].ToObject<bool>();
-        //    bool fillAddress = data["fillAddress"].ToObject<bool>();
-        //    int delay = data["delay"].ToObject<int>();
-        //    int refreshInterval = data["refreshInterval"].ToObject<int>();
-        //    int cardId = data["card"].ToObject<int>();
-        //    int addressId = data["address"].ToObject<int>();
-        //    int addressId = data["address"].ToObject<int>();
-        //    string timeString = data["time"].ToObject<string>();
-        //    var timeList = timeString.Split(':');
-        //    int hour = Int32.Parse(timeList[0]);
-        //    int minute = Int32.Parse(timeList[1]);
-        //    int second = Int32.Parse(timeList[2]);
-        //    List<JObject> itemsJson = data["items"].ToObject<List<JObject>>();
-        //    int siteId = data["site"].ToObject<int>();
-
-        //    var items = new List<Item>();
-
-        //    foreach (var item in itemsJson)
-        //    {
-        //        Categories category = item["category"].ToObject<Categories>();
-        //        Sizes size = item["size"].ToObject<Sizes>();
-        //        var colors = item["colors"].ToObject<string>();
-        //        var names = item["names"].ToObject<string>();
-
-        //        var newItem = new Item()
-        //        {
-        //            Category = category, AnyColor = true, Colors = colors,
-        //            Names = names, Size = size//, TaskId = task.Id
-        //        };
-
-        //        items.Add(newItem);
-        //    }
-
-        //    TaskItem task = new TaskItem()
-        //    {
-        //        Name = taskName,
-        //        AnyColor = anyColor,
-        //        Delay = delay,
-        //        FillAdress = fillAddress,
-        //        OnlyWithEmptyBasket = onlyWithEmptyBasket,
-        //        RefreshInterval = refreshInterval,
-        //        Items = items,
-        //        UseTimer = useTimer,
-        //        CardId = cardId,
-        //        AddressId = addressId,
-        //        Hour = hour,
-        //        Minute = minute,
-        //        Second = second,
-        //        Site = siteId
-        //    };
-
-        //    _context.TaskItems.Add(task);
-
-        //    _context.SaveChanges();
-
-        //    return RedirectToAction("Index");
-        //}
-
         [Route("tasks/Delete/{id}")]
         public IActionResult Delete([FromRoute] int id)
         {
@@ -188,59 +119,24 @@ namespace SupremeBot.Controllers
             return NotFound();
         }
 
-        public IActionResult Edit(int id)
-        {
-            TaskItem model = _context.TaskItems
-                .Include(x => x.Card)
-                .Include(x => x.Address)
-                .FirstOrDefault(x => x.Id == id);
-
-            return View(model);
-        }
-
         [Route("tasks/EditTask")]
         [HttpPut]
-        public void EditTask([FromBody] JObject data)
+        public IActionResult EditTask([FromBody] TaskItem taskItem)
         {
-            int Id = data["id"].ToObject<int>();
+            _taskRepository.EditTask(taskItem);
 
-            string taskName = data["name"].ToObject<string>();
-            bool useTimer = data["useTimer"].ToObject<bool>();
-            bool onlyWithEmptyBasket = data["onlyWithEmptyBasket"].ToObject<bool>();
-            bool fillAddress = data["fillAddress"].ToObject<bool>();
-            int delay = data["delay"].ToObject<int>();
-            int refreshInterval = data["refreshInterval"].ToObject<int>();
-            int cardId = data["card"].ToObject<int>();
-            int addressId = data["address"].ToObject<int>();
-            string timeString = data["time"].ToObject<string>();
-            var timeList = timeString.Split(':');
-            int hour = Int32.Parse(timeList[0]);
-            int minute = Int32.Parse(timeList[1]);
-            int second = Int32.Parse(timeList[2]);
-
-            TaskItem existingTask = _context.TaskItems.FirstOrDefault(x => x.Id == Id);
-
-            if (existingTask == null)
-            {
-                RedirectToAction("Index");
-            }
-
-            existingTask.Name = taskName;
-            existingTask.Delay = delay;
-            existingTask.FillAdress = fillAddress;
-            existingTask.OnlyWithEmptyBasket = onlyWithEmptyBasket;
-            existingTask.RefreshInterval = refreshInterval;
-            existingTask.UseTimer = useTimer;
-            existingTask.CardId = cardId;
-            existingTask.AddressId = addressId;
-            existingTask.Hour = hour;
-            existingTask.Minute = minute;
-            existingTask.Second = second;
-
-            _context.TaskItems.Update(existingTask);
-
-            _context.SaveChanges();
+            return Ok();
         }
+
+        //public IActionResult Edit(int id)
+        //{
+        //    TaskItem model = _context.TaskItems
+        //        .Include(x => x.Card)
+        //        .Include(x => x.Address)
+        //        .FirstOrDefault(x => x.Id == id);
+
+        //    return View(model);
+        //}
 
         public IActionResult Start(int id)
         {
